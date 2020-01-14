@@ -1,0 +1,20 @@
+describe('test 2', function () {
+    it('nimic', function () {
+        cy.visit('/')
+        cy.title().should('eq', 'Conduit') //'Login'
+        cy.location('protocol').should('eq', 'https:')
+        // cy.get(loginPage.email_field).type('test1234555@test1234555.com')
+        // //cy.get('input[type="email"]').type('test1234555@test1234555.com')
+        // cy.get(loginPage.password_field).type('test1234555')
+        // cy.get(loginPage.sign_in_button).contains('Sign in').should('be.visible').click()
+        cy.LogIn()
+        cy.contains('Your Feed', { timeout: 10000 }).should('be.visible')
+        cy.contains('New Post').click()
+        cy.hash().should('include', '#/editor')
+        cy.get('.form-control.form-control-lg').type('my title')
+        cy.get('input[placeholder="What\'s this article about?"]').type('stuff on mind')
+        cy.get('textarea[placeholder="Write your article (in markdown)"]').type('actual text')
+        cy.contains('Publish Article').click()
+        cy.url().should('include', 'article')
+    })
+})

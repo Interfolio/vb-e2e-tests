@@ -1,0 +1,8 @@
+{
+  "baseUrl": "https://dev.test.vb.interfolio.com/",
+  "env": {
+    "username": "kat+allthecards@interfolio.com",
+    "password": "abc123456",
+    "loginUrl": "https://account-test.interfolio.com/login"
+  }
+}

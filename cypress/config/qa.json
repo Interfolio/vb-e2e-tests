@@ -1,0 +1,8 @@
+{
+  "baseUrl": "https://qa.test.vb.interfolio.com/",
+  "env": {
+    "username": "kat+allthecards@interfolio.com",
+    "password": "abc123456",
+    "loginUrl": "https://account-test.interfolio.com/login?redirect=https%3A%2F%2Fqa.test.vb.interfolio.com/1/setup"
+  }
+}
