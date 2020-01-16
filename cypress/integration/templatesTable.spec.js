@@ -1,10 +1,11 @@
 import * as templatesTable from "../pages/templatesTable"
-import { appCookies } from '../pages/helper.js';
+import { appCookies } from '../pages/helper';
 
 describe('View Templates Table Tests', function () {
 
     before(() => {
         cy.visit(Cypress.env('loginUrl'))
+        //  /* tslint:disable-next-line */
         cy.LogIn()
         cy.fixture('templatesTable.json').as('expectedValues');
     });
@@ -22,29 +23,34 @@ describe('View Templates Table Tests', function () {
     })
 
     it.only('Verify sort and pagination', function () {
-        templatesTable.sortTable('TID')
+        templatesTable.sortTable('TID') //ascending
         templatesTable.verifyEntryInTheTemplateTable(0, this.expectedValues.tableEntries[2])
-        templatesTable.sortTable('TID')
+        cy.get(templatesTable.paginationButtonsList).eq(templatesTable.selectPaginationButton('6')).click()
         templatesTable.verifyEntryInTheTemplateTable(0, this.expectedValues.tableEntries[0])
+    
+        templatesTable.sortTable('TID') //descending
+        templatesTable.verifyEntryInTheTemplateTable(0, this.expectedValues.tableEntries[2])
+        cy.get(templatesTable.paginationButtonsList).eq(templatesTable.selectPaginationButton('Previous page')).click()
+        templatesTable.verifyEntryInTheTemplateTable(0, this.expectedValues.tableEntries[6])
 
         templatesTable.sortTable('Name')
+        templatesTable.verifyEntryInTheTemplateTable(0, this.expectedValues.tableEntries[5])
+        cy.get(templatesTable.paginationButtonsList).eq(templatesTable.selectPaginationButton('1')).click()
         templatesTable.verifyEntryInTheTemplateTable(0, this.expectedValues.tableEntries[2])
+
         templatesTable.sortTable('Name')
         templatesTable.verifyEntryInTheTemplateTable(0, this.expectedValues.tableEntries[3])
-
-        templatesTable.sortTable('Unit')
-        templatesTable.verifyEntryInTheTemplateTable(0, this.expectedValues.tableEntries[4])
-        templatesTable.sortTable('Unit')
+        cy.get(templatesTable.paginationButtonsList).eq(templatesTable.selectPaginationButton('Next page')).click()
         templatesTable.verifyEntryInTheTemplateTable(0, this.expectedValues.tableEntries[5])
 
-        // cy.get(templatesTable.paginationButtonsList).eq(templatesTable.selectPaginationButton('5')).click()
-        // cy.get(templatesTable.paginationButtonsList).eq(templatesTable.selectPaginationButton('Next page')).click()
-        // cy.get(templatesTable.paginationButtonsList).eq(templatesTable.selectPaginationButton('Previous page')).click()
-        // cy.get(templatesTable.paginationButtonsList).eq(templatesTable.selectPaginationButton('6')).click()
+        templatesTable.sortTable('Unit')
+        templatesTable.verifyEntryInTheTemplateTable(0, this.expectedValues.tableEntries[6])
+        cy.get(templatesTable.paginationButtonsList).eq(templatesTable.selectPaginationButton('6')).click()
+        templatesTable.verifyEntryInTheTemplateTable(0, this.expectedValues.tableEntries[0])
 
-        // templatesTable.clickPaginationButton('1')
-        // templatesTable.clickPaginationButton('Next page')
-        // templatesTable.clickPaginationButton('Previous page')
-        // templatesTable.clickPaginationButton('6')
+        templatesTable.sortTable('Unit')
+        templatesTable.verifyEntryInTheTemplateTable(0, this.expectedValues.tableEntries[7])
+        cy.get(templatesTable.paginationButtonsList).eq(templatesTable.selectPaginationButton('2')).click()
+        templatesTable.verifyEntryInTheTemplateTable(0, this.expectedValues.tableEntries[8])
     })
 })
