@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "target": "es5",
+        "module": "commonjs",
+        "sourceMap": true,
+        "baseUrl": "../node_modules",
+        "experimentalDecorators": true,
+        "lib": [
+            "es6",
+            "dom"
+        ],
+        "types": [
+            "cypress"
+        ]
+    },
+    "compileOnSave": false,
+    "include": [
+        "**/*.ts", "cypress/support/index.js"
+    ]
+}
