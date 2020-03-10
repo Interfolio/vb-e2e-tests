@@ -1,0 +1,349 @@
+{
+    "tableHeaders": [
+        "Template Name",
+        "Source Template",
+        "Unit",
+        "Sections",
+        "Actions"
+    ],
+    "activeTableEntries": [
+        [
+            "Apple automated template 0",
+            " - ",
+            "University",
+            "-"
+        ],
+        [
+            "automated_template_1",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "automated_template_2",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "automated_template_3",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "automated_template_4",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "automated_template_5",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "automated_template_6",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "automated_template_7",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "automated_template_8",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "automated_template_9",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "automated_template_10",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "BB_automated_template_11",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "Black template 12",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "Blue template 13",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "Cipri automated template 14",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "Cristina_automated_template_15",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "Dragos automated template 16",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "Eric_automated_template_17",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "Green template 18",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "Grey automated template 19",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "John_automated_template_20",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "Magenta template 21",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "Maria_automated_template_22",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "Melon template 23",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "Pear template 24",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "Pineapple automated template 25",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "Pink automated template 26",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "Red automated template 27",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "Steve_template_28",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "Strawberry automated template 29",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "White automated template 30",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "xAttila automated template 31",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "xAlin template 32",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "Zoli automated template 33",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ]
+    ],
+    "achivedTableEntries": [
+        [
+            "archived automated template 0",
+            "Apple automated template 0",
+            "-",
+            "-"
+        ],
+        [
+            "archived automated template 1",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "archived automated template 2",
+            "Apple automated template 0",
+            "2",
+            "-"
+        ],
+        [
+            "archived automated template 3",
+            "Apple automated template 0",
+            "3",
+            "-"
+        ],
+        [
+            "archived automated template 4",
+            "Apple automated template 0",
+            "4",
+            "-"
+        ],
+        [
+            "archived automated template 5",
+            "Apple automated template 0",
+            "5",
+            "-"
+        ],
+        [
+            "archived automated template 6",
+            "Apple automated template 0",
+            "6",
+            "-"
+        ],
+        [
+            "archived automated template 7",
+            "Apple automated template 0",
+            "7",
+            "-"
+        ],
+        [
+            "archived automated template 8",
+            "Apple automated template 0",
+            "8",
+            "-"
+        ],
+        [
+            "archived automated template 9",
+            "Apple automated template 0",
+            "9",
+            "-"
+        ],
+        [
+            "archived automated template 10",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "archived automated template 11",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "archived automated template 12",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "archived automated template 13",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "archived automated template 14",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "archived automated template 15",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "archived automated template 16",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "archived automated template 17",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "archived automated template 18",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "archived template 19",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "archived template 20",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ],
+        [
+            "archived automated template 21",
+            "Apple automated template 0",
+            "University",
+            "-"
+        ]
+    ]
+}

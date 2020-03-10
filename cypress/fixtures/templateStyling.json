@@ -1,0 +1,49 @@
+{
+    "displayStyle": {
+        "Traditional": "Traditional",
+        "Traditional-Date": "Traditional-Date",
+        "Tabular": "Tabular",
+        "Listing": "Listing"
+    },
+    "citationStyle": {
+        "A": "A",
+        "B": "B",
+        "C": "C",
+        "D": "D"
+    },
+    "styling": {
+        "bold": "bold",
+        "italic": "italic",
+        "underline": "underline",
+        "rightAligned": "rightAllinged",
+        "centerAligned": "centerAligned",
+        "leftAligned": "leftAligned",
+        "justify": "justify"
+    },
+    "fontFamily": {
+        "Times": "Times",
+        "Helvetica": "Helvetica",
+        "Arial": "Arial",
+        "Monospace": "Monospace",
+        "Sans-Serif": "Sans-Serif"
+    },
+    "fontSize": {
+        "s4px": "4px",
+        "s8px": "8px",
+        "s12px": "12px",
+        "s16px": "16px",
+        "s20px": "20px",
+        "s24px": "24px",
+        "s28px": "28px",
+        "s30px": "30px",
+        "s32px": "32px"
+    },
+    "fontColor": {
+        "c000000": "#000000",
+        "cCD5C5C": "#CD5C5C",
+        "cF08080": "#F08080",
+        "cFA8072": "#FA8072",
+        "cE9967A": "#E9967A",
+        "cFFA07A": "#FFA07A"
+    }
+}

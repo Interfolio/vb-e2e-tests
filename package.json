@@ -1,0 +1,41 @@
+{
+  "name": "vb-e2e-tests",
+  "version": "1.0.0",
+  "description": "Vita Builder UI tests",
+  "main": "index.js",
+  "scripts": {
+    "dev:run": "npx cypress run --env configFile=dev --reporter mocha-allure-reporter",
+    "dev:open": "npx cypress open --env configFile=dev",
+    "qa:run": "npx cypress run --env configFile=qa --reporter mocha-allure-reporter",
+    "qa:open": "npx cypress open --env configFile=qa",
+    "generate:report": "allure generate allure-results --clean -o allure-report",
+    "liveserver": "cd allure-report/ && live-server",
+    "runandreport": "npm run dev:run && npm run generate:report && npm run liveserver"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Interfolio/vb-e2e-tests.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Interfolio/vb-e2e-tests/issues"
+  },
+  "homepage": "https://github.com/Interfolio/vb-e2e-tests#readme",
+  "dependencies": {
+    "@cypress/webpack-preprocessor": "^4.1.1",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "allure-commandline": "^2.13.0",
+    "babel-loader": "^8.0.6",
+    "cypress": "^4.1.0",
+    "mocha": "^6.2.2",
+    "mocha-allure-reporter": "^1.4.0",
+    "webpack": "^4.41.5"
+  }
+}
