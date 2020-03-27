@@ -1,0 +1,12 @@
+{
+  "baseUrl": "https://vb-dev.interfolio.com/",
+  "viewportWidth": 1200,
+  "viewportHeight": 1024,
+  "waitForAnimations": true,
+  "env": {
+    "username": "kat+allthecards@interfolio.com",
+    "password": "Testing1",
+    "loginUrl": "https://account-test.interfolio.com/login?redirect=https%3A%2F%2Fvb-dev.interfolio.com/1/setup",
+    "APIurl": "https://vb-api-dev.interfolio.com/"
+  }
+}

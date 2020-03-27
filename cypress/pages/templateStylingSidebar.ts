@@ -1,35 +1,36 @@
-export const sidebarTitle = '.ant-col.ant-typography'
-export const displayStyleDropdown = 'nz-select[formcontrolname="display"]'
-export const citationDropdown = 'nz-select[formcontrolname="citation"]'
-export const fontFamilyDropdown = 'nz-select[formcontrolname="fontFamily"]'
-export const fontSizeDropdown = 'nz-select[formcontrolname="fontSize"]'
-export const spaceBeforeDropdown = 'nz-select[formcontrolname="spaceBefore"]'
-export const spaceAfterDropdown = 'nz-select[formcontrolname="spaceAfter"]'
-export const fontColorDropdown = 'nz-select[formcontrolname="fontColor"]'
-export const stylingOptionsList = '.anticon.m-r-small'
-export const dropdownOptions = '.ant-select-dropdown-menu-item'
-
+export const templateStylingSidebarSelectors = {
+    sidebarTitle: '.ant-col.ant-typography',
+    displayStyleDropdown: 'nz-select[formcontrolname="display"]',
+    citationDropdown: 'nz-select[formcontrolname="citation"]',
+    fontFamilyDropdown: 'nz-select[formcontrolname="fontFamily"]',
+    fontSizeDropdown: 'nz-select[formcontrolname="fontSize"]',
+    spaceBeforeDropdown: 'nz-select[formcontrolname="spaceBefore"]',
+    spaceAfterDropdown: 'nz-select[formcontrolname="spaceAfter"]',
+    fontColorDropdown: 'nz-select[formcontrolname="fontColor"]',
+    stylingOptionsList: '.anticon.m-r-small',
+    dropdownOptions: '.ant-select-dropdown-menu-item'
+}
 export function selectAnOptionFromADropdown(dropdown: string, option: string) {
     cy.get(identifyDropdown(dropdown)).click()
-    cy.get(dropdownOptions).contains(option).click()
+    cy.get(templateStylingSidebarSelectors.dropdownOptions).contains(option).click()
 }
 
 function identifyDropdown(dropdownName: string) {
     switch (dropdownName) {
         case "Display Style":
-            return displayStyleDropdown
+            return templateStylingSidebarSelectors.displayStyleDropdown
         case "Citation Style":
-            return citationDropdown
+            return templateStylingSidebarSelectors.citationDropdown
         case "Font Family":
-            return fontFamilyDropdown
+            return templateStylingSidebarSelectors.fontFamilyDropdown
         case "Font Size":
-            return fontSizeDropdown
+            return templateStylingSidebarSelectors.fontSizeDropdown
         case "Space Before":
-            return spaceBeforeDropdown
+            return templateStylingSidebarSelectors.spaceBeforeDropdown
         case "Space After":
-            return spaceAfterDropdown
+            return templateStylingSidebarSelectors.spaceAfterDropdown
         case "Font Color":
-            return fontColorDropdown
+            return templateStylingSidebarSelectors.fontColorDropdown
         default:
             return "error"
     }

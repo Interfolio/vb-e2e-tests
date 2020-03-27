@@ -1,5 +1,5 @@
 import * as LogInPage from "../pages/logInPage"
-import { templateTablePageTitle } from "../pages/templatesTable"
+import { templatesTableSelectors } from "../pages/templatesTable"
 
 declare global {
     namespace Cypress {
@@ -18,7 +18,7 @@ export function LogIn() {
     cy.get(LogInPage.email_field).type(Cypress.env('username'))
     cy.get(LogInPage.password_field).type(Cypress.env('password'))
     cy.get(LogInPage.sign_in_button).click()
-    cy.get(templateTablePageTitle, { timeout: 20000 }).should('be.visible')
+    cy.get(templatesTableSelectors.templateTablePageTitle, { timeout: 20000 }).should('be.visible')
 }
 
 export function loginByAPI(): Cypress.Chainable<any> {
