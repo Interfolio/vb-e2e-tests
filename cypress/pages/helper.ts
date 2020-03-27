@@ -1,5 +1,3 @@
-import * as templatesTable from "../pages/templatesTable"
-
 export const appCookies = [
   'CONSUMER_DOSSIER_TIERS',
   'CS',

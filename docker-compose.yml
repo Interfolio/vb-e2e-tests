@@ -1,0 +1,85 @@
+version: '3.7'
+
+services:
+
+  vb_web_e2e:
+    image: 304198734546.dkr.ecr.us-west-2.amazonaws.com/vb-web-e2e
+    container_name: vb_web_e2e
+    networks:
+      - vb
+    restart: on-failure
+    depends_on:
+      - vb_api
+    ports:
+      - 80:80
+      - 443:443 
+    volumes: 
+     - ./ssl:/etc/nginx/certs    
+
+  vb_api:
+    image: 304198734546.dkr.ecr.us-west-2.amazonaws.com/vb-api
+    container_name: vb_api
+    command: ["bundle", "exec", "bin/rails", "s", "-b", "ssl://0.0.0.0:3000?key=./ssl/interfolio.com.key&cert=./ssl/interfolio.com.crt&verify_mode=none"]
+    restart: on-failure
+    depends_on:
+      - postgres
+      - redis    
+      - vb_api_migrations
+    ports:
+      - 3000:3000
+    env_file:
+      - .env
+    networks: 
+      - vb      
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./ssl:/app/ssl
+
+  vb_api_migrations:
+    image: 304198734546.dkr.ecr.us-west-2.amazonaws.com/vb-api
+    container_name: vb_api_migrations
+    restart: on-failure
+    depends_on:
+      - postgres
+      - redis    
+    ports:
+      - 3001:3001
+    env_file:
+      - .env
+    networks: 
+      - vb      
+    stdin_open: true
+    tty: true    
+
+  postgres:
+    image: postgres:12.1-alpine
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks: 
+      - vb      
+    env_file:
+      - .env
+
+  redis:
+    image: redis:5.0.7-alpine
+    restart: always
+    volumes:
+      - redis_data:/data
+    ports:
+      - 6379:6379
+    networks: 
+      - vb      
+
+volumes:
+  postgres_data:
+  redis_data:
+  bundle_volume:
+
+networks:
+  vb:
+    name: vb_network
+    driver: bridge
