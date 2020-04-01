@@ -15,16 +15,6 @@ describe('View Templates Table Tests', function () {
         checkURLcontains('/setup', 30000)
         cy.fixture('templatesTable.json').as('expectedValues');
     });
-    // before(() => {
-    //     cy.LogInUsingAPI()
-    // });
-
-    // beforeEach(() => {
-    //     cy.visit('/')
-    //     checkURLcontains('/setup', 30000)
-    //     Cypress.Cookies.preserveOnce(...appCookies);
-    //     cy.fixture('templatesTable.json').as('expectedValues');
-    // });
 
     it('Verify table headers and some entries', function () {
         cy.get(templatesTableSelectors.headersList).each(($el, index) => expect($el.get(0).innerText).to.contain(this.expectedValues.tableHeaders[index]))
@@ -33,7 +23,7 @@ describe('View Templates Table Tests', function () {
         templatesTable.verifyEntryInTheTemplateTable(1, this.expectedValues.activeTableEntries[1])
     })
 
-    it.only('Verify pagination and sort by Template Name on Active Templates Tab', function () {
+    it('Verify pagination and sort by Template Name on Active Templates Tab', function () {
         templatesTable.verifySort('Template Name', this.expectedValues.activeTableEntries[33])
         templatesTable.verifyPagination('2', this.expectedValues.activeTableEntries[13])
         templatesTable.verifySort('Template Name', this.expectedValues.activeTableEntries[20])
@@ -99,4 +89,25 @@ describe('View Templates Table Tests', function () {
         templatesTable.switchPaginationAndCheckDisplayedEntries(2, 3, 22)
         templatesTable.switchPaginationAndCheckDisplayedEntries(3, 3, 22)
     })
+
+    it('Verify Exclude subunits works', function () {
+        cy.get(templatesTableSelectors.unitDropdown).click().wait(1000)
+        cy.get(templatesTableSelectors.unitDropdownValues).contains('College of Business', { timeout: 2000 }).click()
+        cy.get(templatesTableSelectors.paginationButtonsList).should('have.length', 3)
+        cy.get(templatesTableSelectors.templateNamelist).should('have.length', 20)
+        cy.get(templatesTableSelectors.unitList).should('contain', 'College of Business').should('contain', 'Information Systems Department').should('not.contain', 'University')
+        cy.get(templatesTableSelectors.unitDropdown).click()
+        cy.get(templatesTableSelectors.unitDropdownValues).contains('University').click()
+        cy.get(templatesTableSelectors.excludeSubunitsCheckbox).click()
+        cy.get(templatesTableSelectors.templateNamelist).should('have.length', 12)
+        cy.get(templatesTableSelectors.activeOrArchivedTab).contains('Archived').click()
+        cy.get(templatesTableSelectors.templateNamelist).should('have.length', 11)
+        cy.get(templatesTableSelectors.unitList).should('contain', 'University')
+        cy.get(templatesTableSelectors.unitDropdown).click()
+        cy.get(templatesTableSelectors.unitDropdownValues).contains('Marketing').click()
+        cy.get(templatesTableSelectors.excludeSubunitsCheckbox).click()
+        cy.get(templatesTableSelectors.templateNamelist).should('have.length', 11)
+        cy.get(templatesTableSelectors.unitList).should('contain', 'Marketing')
+    })
+
 })
