@@ -3,7 +3,8 @@ export const sectionsPageSelectors = {
     whiteColoredButtons: '.ant-btn.ant-btn-default',
     noBorderButtons: '.ant-btn.ant-btn-link',//'.ant-btn.ng-star-inserted.ant-btn-link'
     sectionPageTitle: '.ant-typography',
-    temporaryNameAndDescription: '.template-editor'
+    templateName: '.ant-row-flex-bottom > .ant-col-7 > h1',
+    templateDescription: '.ant-row-flex-bottom > .ant-col-7 > div'
 }
 
 export function clickOn(buttonText: string) {

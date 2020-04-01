@@ -5,6 +5,8 @@ import { generalInformationSidebarSelectors } from "../pages/generalInformationS
 import { templatesTableSelectors } from "../pages/templatesTable"
 import { sectionsPageSelectors } from "../pages/sectionsPage"
 import { RadioButton } from "../components/radio-button"
+import { SidebarButtons } from "../components/sidebar-buttons"
+
 
 describe('Create template', () => {
     before(() => {
@@ -15,45 +17,38 @@ describe('Create template', () => {
         cy.visit('/')
         checkURLcontains('/setup', 30000)
         Cypress.Cookies.preserveOnce(...appCookies);
-        cy.fixture('templatesTable.json').then((expectedValues) => {
-            cy.get(templatesTableSelectors.headersList).each(($el, index) => expect($el.get(0).innerText).to.contain(expectedValues.tableHeaders[index]))
-        });
-    });
 
-    it('Edit template name, description and toggles state from general information sidebar', function () {
         cy.get(templatesTableSelectors.editCloneAndArchiveButtonList).contains('Edit').click()
+        checkURLcontains('/edit', 30000)
         cy.get(sectionsPageSelectors.sectionPageTitle, { timeout: 30000 }).contains('Sections').should('be.visible')
         sectionsPage.clickOn('Edit General Information')
+    });
+
+    it.only('Edit template name, description and toggles state from general information sidebar', function () {
         cy.get(generalInformationSidebarSelectors.sidebarTitle).should('contain', 'General Information')
         const UUID = createUUID()
         cy.get(generalInformationSidebarSelectors.vitaTemplateNameField).clear().type('automated-N-' + UUID)
         cy.get(generalInformationSidebarSelectors.vitaTemplateDescriptionField).clear().type('automated-D-' + UUID)
         RadioButton.verifyStates(false, true, false, true, true)
         RadioButton.clickEachRadioButton()
-
-        generalInformationSidebar.clickOn('Apply Changes')
-        cy.get(sectionsPageSelectors.temporaryNameAndDescription).should('contain', 'automated-N-' + UUID).should('contain', 'automated-D-' + UUID)
+        SidebarButtons.clickOn('Apply Changes')
+        cy.get(sectionsPageSelectors.templateName).should('contain', 'automated-N-' + UUID)
+        cy.get(sectionsPageSelectors.templateDescription).should('contain', 'automated-D-' + UUID)
         sectionsPage.clickOn('Edit General Information')
         RadioButton.verifyStates(true, false, true, false, false)
     });
 
     it('Verify name uniqueness and that name and description are mandatory', function () {
-        cy.get(templatesTableSelectors.editCloneAndArchiveButtonList).contains('Edit').click()
-        cy.get(sectionsPageSelectors.sectionPageTitle, { timeout: 30000 }).contains('Sections').should('be.visible')
-        sectionsPage.clickOn('Edit General Information')
         cy.fixture('templatesTable.json').then((expectedValues) => {
             cy.get(generalInformationSidebarSelectors.vitaTemplateNameField).clear().type(expectedValues.activeTableEntries[1][0])
         });
-        generalInformationSidebar.clickOn('Apply Changes')
+        SidebarButtons.clickOn('Apply Changes')
         cy.get(generalInformationSidebarSelectors.nameNotUniqueError).should('contain', 'Vita name must be unique.')
         generalInformationSidebar.checkValidationWorks(generalInformationSidebarSelectors.vitaTemplateNameField)
         generalInformationSidebar.checkValidationWorks(generalInformationSidebarSelectors.vitaTemplateDescriptionField)
     });
 
     it('Verify Cancel and Close buttons functionality from general information sidebar', function () {
-        cy.get(templatesTableSelectors.editCloneAndArchiveButtonList, { timeout: 30000 }).contains('Edit').click()
-        cy.get(sectionsPageSelectors.sectionPageTitle, { timeout: 30000 }).contains('Sections').should('be.visible')
-        sectionsPage.clickOn('Edit General Information')
         cy.get(generalInformationSidebarSelectors.vitaTemplateNameField).invoke('val').as('initialTemplateName');
         cy.get(generalInformationSidebarSelectors.vitaTemplateDescriptionField).invoke('val').as('initialTemplateDescription');
         cy.get(generalInformationSidebarSelectors.vitaTemplateNameField).clear().type('updated name')

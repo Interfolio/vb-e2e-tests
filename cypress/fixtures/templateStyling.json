@@ -11,21 +11,12 @@
         "C": "C",
         "D": "D"
     },
-    "styling": {
-        "bold": "bold",
-        "italic": "italic",
-        "underline": "underline",
-        "rightAligned": "rightAllinged",
-        "centerAligned": "centerAligned",
-        "leftAligned": "leftAligned",
-        "justify": "justify"
-    },
     "fontFamily": {
         "Times": "Times",
         "Helvetica": "Helvetica",
         "Arial": "Arial",
         "Monospace": "Monospace",
-        "Sans-Serif": "Sans-Serif"
+        "SansSerif": "Sans-Serif"
     },
     "fontSize": {
         "s4px": "4px",
@@ -45,5 +36,10 @@
         "cFA8072": "#FA8072",
         "cE9967A": "#E9967A",
         "cFFA07A": "#FFA07A"
+    },
+    "borderPlacement": {
+        "None": "None",
+        "Top": "Top",
+        "Bottom": "Bottom"
     }
 }

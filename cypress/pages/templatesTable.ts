@@ -13,8 +13,10 @@ export const templatesTableSelectors = {
     searchBar: '.body-small.ant-input',
     paginationDropdown: '.body-small .ant-select-selection',
     paginationDropdownValues: '.ant-select-dropdown-menu-item',
+    unitDropdown: 'div#fis-body-content span > nz-select > div > div',
+    unitDropdownValues: '.ant-select-dropdown-menu-item.ng-star-inserted',
+    excludeSubunitsCheckbox: '.m-l-large'
 }
-
 export function verifyEntryInTheTemplateTable(index: number, expectedEntry: Array<number>) {
     cy.get(templatesTableSelectors.templateNamelist).eq(index).as('templateNamelist')
     cy.get(templatesTableSelectors.sourceTemplateList).eq(index).as('sourceTemplateList')
@@ -42,19 +44,6 @@ function selectPage(index: number) {
         cy.get(templatesTableSelectors.paginationButtonsList).eq(index).click()
     else {
         cy.get(templatesTableSelectors.paginationButtonsList).last().click()
-    }
-}
-
-export function sortTableBy2(column: string) {
-    switch (column) {
-        case "Template Name":
-            return cy.get(templatesTableSelectors.sortingButtonsList).eq(0).click();
-        case 'Source Template':
-            return cy.get(templatesTableSelectors.sortingButtonsList).eq(1).click();
-        case 'Unit':
-            return cy.get(templatesTableSelectors.sortingButtonsList).eq(2).click();
-        default:
-            return "Column not found"
     }
 }
 
