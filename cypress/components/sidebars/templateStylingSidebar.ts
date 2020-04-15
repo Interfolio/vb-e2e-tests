@@ -14,7 +14,7 @@ export const templateStylingSidebarSelectors = {
     selectedStylingOption: 'ng-star-inserted active',
     tabsList: '.ant-tabs-tab.ng-star-inserted',
     headingsList: '.ant-collapse-header',
-    stylingOptionsBar: '.fontstyle-selector-container'
+    stylingOptionsBar: '.fontstyle-selector-container',
 }
 
 export function selectAnOptionFromADropdown(dropdown: string, option: string) {

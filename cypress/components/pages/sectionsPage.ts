@@ -5,13 +5,11 @@ export const sectionsPageSelectors = {
     sectionPageTitle: '.ant-typography',
     templateName: '.ant-row-flex-bottom > .ant-col-7 > h1',
     templateDescription: '.ant-row-flex-bottom > .ant-col-7 > div',
-    //shownSectionsList:  '.m-b-large.section-list', //'nz-row#cdk-drop-list-0 vb-template-section:nth-child(n)',
-    //hiddenSectionsList: '.m-b-large.section-list', //'nz-row#cdk-drop-list-1 vb-template-section:nth-child(n)',
     shownOrHiddenSectionList: '.m-b-large.section-list',
     moveSectionUpButton: '.up-button.ant-btn.ant-btn-link',
     moveSectionDownButton: '.down-button.ant-btn.ant-btn-link',
     shownOrHiddenSectionsCount: '.body-medium.m-b-small',
-    showOrHideSectionButton: '.ant-btn.ng-star-inserted'
+    showOrHideSectionButton: '.ant-btn.ng-star-inserted',
 }
 
 export function clickOn(buttonText: string) {

@@ -1,6 +1,5 @@
 import * as sectionsPage from "../components/pages/sectionsPage"
 import { appCookies, checkURLcontains, clickOnEditButtonForASpecificTemplate } from '../components/helper'
-import { sectionsPageSelectors } from "../components/pages/sectionsPage"
 import { popupButtonsSelectors } from '../components/buttons/popupButtons';
 import * as sidebarButtons from "../components/buttons/sidebarButtons"
 import { sectionSettingsSidebarSelectors } from "../components/sidebars/sectionSettingsSidebar"

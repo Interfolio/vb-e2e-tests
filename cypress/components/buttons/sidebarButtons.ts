@@ -3,7 +3,7 @@ export const sidebarButtonsSelectors = {
     whiteColoredButtons: '.ant-btn.ant-btn-default',
     noBorderButtons: '.sidebar-header .ant-btn.ant-btn-link',
     archiveButton: '.m-l-small.ant-btn.ant-btn-danger',
-    editSectionSidebarButtons: '.details'
+    editSectionSidebarButtons: '.details',
 }
 export function clickOn(buttonText: string) {
     switch (buttonText) {

@@ -17,7 +17,7 @@ export const createTemplatePageSelectors = {
     cancelPopupBackButton: '.ant-modal-confirm-btns > button.ant-btn.ng-star-inserted.ant-btn-default',
     uniqueNameError: '.ng-trigger',
     didYouMeanToCloneMessage: '.info-text',
-    backToTemplatesButton: '.info-text-back-link'
+    backToTemplatesButton: '.info-text-back-link',
 }
 
 export function selectUnitAndTemplate(unitIndex: number, templateIndex: number) {
