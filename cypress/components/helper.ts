@@ -1,3 +1,6 @@
+import { templatesTableSelectors } from "./pages/templatesTablePage"
+import { sectionsPageSelectors } from "./pages/sectionsPage"
+
 export const appCookies = [
   'CONSUMER_DOSSIER_TIERS',
   'CS',
@@ -18,7 +21,9 @@ export const appCookies = [
   '_interfolio_session',
   'ahoy_visit',
   'ahoy_visitor',
-  'ajs_anonymous_id'
+  'ajs_anonymous_id',
+  'AWSALB',
+  'AWSALBCORS',
 ];
 
 export function createUUID() {
@@ -30,4 +35,10 @@ export function createUUID() {
 
 export function checkURLcontains(termToVerify: string, time: number = 0) {
   cy.location('pathname', { timeout: time }).should('include', termToVerify)
+}
+
+export function clickOnEditButtonForASpecificTemplate(templateIndex: number) {
+  cy.get(templatesTableSelectors.editCloneAndArchiveButtonList, { timeout: 30000 }).eq(templateIndex).contains('Edit').click()
+  checkURLcontains('/edit', 30000)
+  cy.get(sectionsPageSelectors.sectionPageTitle, { timeout: 30000 }).contains('Sections').should('be.visible')
 }

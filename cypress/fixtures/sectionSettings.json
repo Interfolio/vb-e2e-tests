@@ -1,0 +1,22 @@
+{
+    "displayStyle": {
+        "Traditional": "Traditional",
+        "TraditionalDate": "Traditional-date",
+        "Tabular": "Tabular",
+        "Listing": "Listing"
+    },
+    "sortOrder": {
+        "Ascending": "Ascending",
+        "Descending": "Descending"
+    },
+    "basedOn": {
+        "Field1": "Field1",
+        "StartSemester": "Start Semester",
+        "EndSemester": "End Semester"
+    },
+    "numbering": {
+        "RestartNumbering": "Restart numbering",
+        "NoNumbering": "No numbering",
+        "ContinueNumbering": "Continue numbering"
+    }
+}

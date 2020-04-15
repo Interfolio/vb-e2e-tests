@@ -6,7 +6,7 @@
   "env": {
     "username": "kat+allthecards@interfolio.com",
     "password": "Testing1",
-    "loginUrl": "https://account-test.interfolio.com/login?redirect=https%3A%2F%2Fdev.test.vb.interfolio.com/1/setup",
-    "APIurl": "https://dev-api.test.vb.interfolio.com/"
+    "loginUrl": "https://account-test.interfolio.com/login?redirect=https%3A%2F%2Fdev.test.vb.interfolio.com/1/templates",
+    "APIurl": "https://dev-api.test.vb.interfolio.com/1"
   }
 }

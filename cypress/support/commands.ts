@@ -1,5 +1,5 @@
-import * as LogInPage from "../pages/logInPage"
-import { templatesTableSelectors } from "../pages/templatesTable"
+import * as LogInPage from "../components/pages/logInPage"
+import { templatesTableSelectors } from "../components/pages/templatesTablePage"
 
 declare global {
     namespace Cypress {
@@ -40,10 +40,10 @@ export function createTemplateAPI(name: String, unitId: string, baseTemplateId: 
         `mutation{
         createVitaTemplate(
           input: {
+            unitId: "${unitId}"
+            baseTemplateId: ${baseTemplateId}
             settings: {
-              name: "${name}"
-              unitId: "${unitId}"
-              baseTemplateId: ${baseTemplateId}
+              name: "${name}" 
               description: "automated templated"
             }
         }
@@ -55,6 +55,7 @@ export function createTemplateAPI(name: String, unitId: string, baseTemplateId: 
     return cy.request({
         method: 'POST',
         url: Cypress.env('APIurl'),
+        
         headers: {
             'Content-Type': 'application/json'
         },
@@ -125,10 +126,8 @@ export function updateTemplateToArchivedAPI(id: string, name: string, unitId: st
             id: ${id},
             settings: {   
               name: "${name}",
-              unitId: "${unitId}",
               active: ${active},
               description: "automated templated",
-              baseTemplateId: ${baseTemplateId},
             }
           }
         ) {

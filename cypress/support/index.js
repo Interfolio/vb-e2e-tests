@@ -1,6 +1,7 @@
 import './commands'
 
 before(() => {
+    cy.LogInUsingAPI()
     cleanEnvironment()
     //get template names and ids from seedData.json
     cy.fixture('seedData.json').then((seedData) => {

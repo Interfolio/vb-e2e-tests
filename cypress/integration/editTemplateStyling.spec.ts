@@ -1,38 +1,37 @@
-import * as sectionsPage from "../pages/sectionsPage"
-import { appCookies, checkURLcontains } from '../pages/helper'
-import * as templateStylingSidebar from "../pages/templateStylingSidebar"
-import { templatesTableSelectors } from "../pages/templatesTable"
-import { sectionsPageSelectors } from "../pages/sectionsPage"
-import { templateStylingSidebarSelectors } from "../pages/templateStylingSidebar"
-import { SidebarButtons } from "../components/sidebar-buttons"
-import { discardChangesPopup } from '../pages/discardChangesPopup';
+import * as sectionsPage from "../components/pages/sectionsPage"
+import { clickOnEditButtonForASpecificTemplate, appCookies, checkURLcontains } from '../components/helper'
+import * as templateStylingSidebar from "../components/sidebars/templateStylingSidebar"
+import { templatesTableSelectors } from "../components/pages/templatesTablePage"
+import { sectionsPageSelectors } from "../components/pages/sectionsPage"
+import { templateStylingSidebarSelectors } from "../components/sidebars/templateStylingSidebar"
+import * as sidebarButtons from "../components/buttons/sidebarButtons"
+import { popupButtonsSelectors } from '../components/buttons/popupButtons';
 
-describe('Template styling sidebar tests', () => {
+describe('Edit template styling sidebar tests', () => {
+
     before(() => {
         cy.LogInUsingAPI()
     });
 
+    var templateIndex = -1
     beforeEach(() => {
         cy.visit('/')
-        checkURLcontains('/setup', 30000)
+        checkURLcontains('/templates', 30000)
         Cypress.Cookies.preserveOnce(...appCookies);
 
-        cy.get(templatesTableSelectors.editCloneAndArchiveButtonList, { timeout: 30000 }).eq(12).contains('Edit').click()
-        checkURLcontains('/edit', 30000)
-        cy.get(sectionsPageSelectors.sectionPageTitle, { timeout: 30000 }).contains('Sections').should('be.visible')
+        templateIndex++
+        clickOnEditButtonForASpecificTemplate(templateIndex)
         sectionsPage.clickOn('Edit Template Styling')
 
         cy.fixture('templateStyling.json').as('expectedStylingValues');
     });
 
-    it('Edit and apply display style and citation style from template styling sidebar', function () {
+    it('Edit and apply citation style from template styling sidebar', function () {
         cy.get(templateStylingSidebarSelectors.sidebarTitle).should('contain', 'Edit Template Styling')
-        templateStylingSidebar.selectAnOptionFromADropdown('Display Style', this.expectedStylingValues.displayStyle.Tabular)
         templateStylingSidebar.selectAnOptionFromADropdown('Citation Style', this.expectedStylingValues.citationStyle.B)
-        SidebarButtons.clickOn('Apply Changes')
-        cy.get(templateStylingSidebarSelectors.toastMessage).should('be.visible')
+        sidebarButtons.clickOn('Apply Changes')
+        cy.get(popupButtonsSelectors.toastMessage).should('be.visible')
         sectionsPage.clickOn('Edit Template Styling')
-        cy.get(templateStylingSidebarSelectors.displayStyleDropdown).should('contain.text', this.expectedStylingValues.displayStyle.Tabular)
         cy.get(templateStylingSidebarSelectors.citationDropdown).should('contain.text', this.expectedStylingValues.citationStyle.B)
     });
 
@@ -46,8 +45,8 @@ describe('Template styling sidebar tests', () => {
         ]
         templateStylingSidebar.selectStylingOptions('Bold', 'Italic', 'Underline', 'Align Left', 'Justify')
         templateStylingSidebar.selectOptionsFromDropdown(expectedTitleValues)
-        SidebarButtons.clickOn('Apply Changes')
-        cy.get(templateStylingSidebarSelectors.toastMessage, { timeout: 10000 }).should('be.visible')
+        sidebarButtons.clickOn('Apply Changes')
+        cy.get(popupButtonsSelectors.toastMessage, { timeout: 10000 }).should('be.visible')
         sectionsPage.clickOn('Edit Template Styling')
         templateStylingSidebar.verifyStylingOptionsAreSelected('Bold', 'Italic', 'Underline', 'Justify')
         templateStylingSidebar.verifyOptionsFromDropdown(expectedTitleValues)
@@ -66,7 +65,7 @@ describe('Template styling sidebar tests', () => {
             this.expectedStylingValues.borderPlacement.Top,
             this.expectedStylingValues.fontSize.s32px
         ]
-        cy.get(templateStylingSidebarSelectors.tabsList).contains('Headlines').click()
+        cy.get(templateStylingSidebarSelectors.tabsList).contains('Headings').click()
         cy.get(templateStylingSidebarSelectors.headingsList).eq(0).click()
         templateStylingSidebar.selectStylingOptions('Bold', 'Italic', 'Align Center', 'Align Right')
         templateStylingSidebar.selectOptionsFromDropdown(expectedHeadingOneValues)
@@ -88,10 +87,10 @@ describe('Template styling sidebar tests', () => {
         templateStylingSidebar.selectOptionsFromDropdown(expectedHeadingTwoValues)
         templateStylingSidebar.selectExtraOptionsFromHeadingDropdown(expectedHeadingTwoExtraValues)
         //apply changes
-        SidebarButtons.clickOn('Apply Changes')
-        cy.get(templateStylingSidebarSelectors.toastMessage, { timeout: 10000 }).should('be.visible')
+        sidebarButtons.clickOn('Apply Changes')
+        cy.get(popupButtonsSelectors.toastMessage, { timeout: 10000 }).should('be.visible')
         sectionsPage.clickOn('Edit Template Styling')
-        cy.get(templateStylingSidebarSelectors.tabsList).contains('Headlines').click()
+        cy.get(templateStylingSidebarSelectors.tabsList).contains('Headings').click()
         cy.get(templateStylingSidebarSelectors.headingsList).eq(0).click()
         //verify heading 1
         templateStylingSidebar.verifyStylingOptionsAreSelected('Bold', 'Italic', 'Align Right')
@@ -115,8 +114,8 @@ describe('Template styling sidebar tests', () => {
         cy.get(templateStylingSidebarSelectors.tabsList).contains('Paragraph').click()
         templateStylingSidebar.selectStylingOptions('Underline', 'Bold', 'Align Center', 'Align Right', 'Justify')
         templateStylingSidebar.selectOptionsFromDropdown(expectedParagraphValues)
-        SidebarButtons.clickOn('Apply Changes')
-        cy.get(templateStylingSidebarSelectors.toastMessage, { timeout: 10000 }).should('be.visible')
+        sidebarButtons.clickOn('Apply Changes')
+        cy.get(popupButtonsSelectors.toastMessage, { timeout: 10000 }).should('be.visible')
         sectionsPage.clickOn('Edit Template Styling')
         cy.get(templateStylingSidebarSelectors.tabsList).contains('Paragraph').click()
         templateStylingSidebar.verifyStylingOptionsAreSelected('Bold', 'Underline', 'Justify')
@@ -131,16 +130,13 @@ describe('Template styling sidebar tests', () => {
         cy.get(sectionsPageSelectors.sectionPageTitle, { timeout: 30000 }).contains('Sections').should('be.visible')
         sectionsPage.clickOn('Edit Template Styling')
         cy.get(templateStylingSidebarSelectors.tabsList).contains('Paragraph').click()
-        templateStylingSidebar.selectAnOptionFromADropdown('Display Style', this.expectedStylingValues.displayStyle.Listing)
         templateStylingSidebar.selectAnOptionFromADropdown('Citation Style', this.expectedStylingValues.citationStyle.D)
-        SidebarButtons.clickOn('Cancel')
-        cy.get(discardChangesPopup.cancelButton).click()
-        SidebarButtons.clickOn('Close')
-        cy.get(discardChangesPopup.yesButton).click()
+        sidebarButtons.clickOn('Cancel')
+        cy.get(popupButtonsSelectors.cancelButton).click()
+        sidebarButtons.clickOn('Close')
+        cy.get(popupButtonsSelectors.yesButton).click()
         cy.get(templateStylingSidebarSelectors.sidebarTitle).should('not.be.visible')
         sectionsPage.clickOn('Edit Template Styling')
-        cy.get(templateStylingSidebarSelectors.displayStyleDropdown).children().children().eq(0).children()
-            .invoke('attr', 'title').then(text => expect(text).to.not.deep.equal(this.expectedStylingValues.displayStyle.Listing))
         cy.get(templateStylingSidebarSelectors.citationDropdown).children().children().eq(0).children()
             .invoke('attr', 'title').then(text => expect(text).to.not.deep.equal(this.expectedStylingValues.citationStyle.D))
     });
@@ -156,10 +152,10 @@ describe('Template styling sidebar tests', () => {
         cy.get(templateStylingSidebarSelectors.fontFamilyDropdown).filter(':visible').click()
         cy.get(templateStylingSidebarSelectors.dropdownOptions).contains(this.expectedStylingValues.fontFamily.Arial).click()
         templateStylingSidebar.selectStylingOptions('Bold', 'Justify')
-        SidebarButtons.clickOn('Cancel')
-        cy.get(discardChangesPopup.cancelButton).click()
-        SidebarButtons.clickOn('Close')
-        cy.get(discardChangesPopup.yesButton).click()
+        sidebarButtons.clickOn('Cancel')
+        cy.get(popupButtonsSelectors.cancelButton).click()
+        sidebarButtons.clickOn('Close')
+        cy.get(popupButtonsSelectors.yesButton).click()
         cy.get(templateStylingSidebarSelectors.sidebarTitle).should('not.be.visible')
         sectionsPage.clickOn('Edit Template Styling')
         cy.get(templateStylingSidebarSelectors.fontFamilyDropdown).children().children().eq(0).children()
@@ -174,7 +170,7 @@ describe('Template styling sidebar tests', () => {
         checkURLcontains('/edit', 30000)
         cy.get(sectionsPageSelectors.sectionPageTitle, { timeout: 30000 }).contains('Sections').should('be.visible')
         sectionsPage.clickOn('Edit Template Styling')
-        cy.get(templateStylingSidebarSelectors.tabsList).contains('Headlines').click()
+        cy.get(templateStylingSidebarSelectors.tabsList).contains('Headings').click()
         // edit heading 1 and discard changes
         cy.get(templateStylingSidebarSelectors.headingsList).eq(0).click()
         cy.get(templateStylingSidebarSelectors.spaceBeforeDropdown).filter(':visible').click()
@@ -185,13 +181,13 @@ describe('Template styling sidebar tests', () => {
         cy.get(templateStylingSidebarSelectors.fontColorDropdown).filter(':visible').click()
         cy.get(templateStylingSidebarSelectors.dropdownOptions).contains(this.expectedStylingValues.fontColor.cFA8072).click()
         templateStylingSidebar.selectStylingOptions('Italic', 'Align Left')
-        SidebarButtons.clickOn('Close')
-        cy.get(discardChangesPopup.cancelButton).click()
-        SidebarButtons.clickOn('Cancel')
-        cy.get(discardChangesPopup.yesButton).click()
+        sidebarButtons.clickOn('Close')
+        cy.get(popupButtonsSelectors.cancelButton).click()
+        sidebarButtons.clickOn('Cancel')
+        cy.get(popupButtonsSelectors.yesButton).click()
         cy.get(templateStylingSidebarSelectors.sidebarTitle).should('not.be.visible')
         sectionsPage.clickOn('Edit Template Styling')
-        cy.get(templateStylingSidebarSelectors.tabsList).contains('Headlines').click()
+        cy.get(templateStylingSidebarSelectors.tabsList).contains('Headings').click()
         // verify changes on heading 1 are discarded
         cy.get(templateStylingSidebarSelectors.headingsList).eq(0).click()
         cy.get(templateStylingSidebarSelectors.spaceBeforeDropdown).children().children().eq(0).children()
@@ -204,7 +200,7 @@ describe('Template styling sidebar tests', () => {
         templateStylingSidebar.verifyDisplayStyleChangesAreDiscarded('Italic', 'Align Left')
     });
 
-    it('Edit title options and discard changes from template styling sidebar', function () {
+    it('Edit paragraph options and discard changes from template styling sidebar', function () {
         //this test needs different template than the one from beforeEach
         cy.visit('/')
         cy.get(templatesTableSelectors.editCloneAndArchiveButtonList, { timeout: 30000 }).eq(9).contains('Edit').click()
@@ -216,10 +212,10 @@ describe('Template styling sidebar tests', () => {
         cy.get(templateStylingSidebarSelectors.spaceAfterDropdown).filter(':visible').click()
         cy.get(templateStylingSidebarSelectors.dropdownOptions).contains(this.expectedStylingValues.fontSize.s16px).click()
         templateStylingSidebar.selectStylingOptions('Align Right')
-        SidebarButtons.clickOn('Close')
-        cy.get(discardChangesPopup.cancelButton).click()
-        SidebarButtons.clickOn('Cancel')
-        cy.get(discardChangesPopup.yesButton).click()
+        sidebarButtons.clickOn('Close')
+        cy.get(popupButtonsSelectors.cancelButton).click()
+        sidebarButtons.clickOn('Cancel')
+        cy.get(popupButtonsSelectors.yesButton).click()
         cy.get(templateStylingSidebarSelectors.sidebarTitle).should('not.be.visible')
         sectionsPage.clickOn('Edit Template Styling')
         cy.get(templateStylingSidebarSelectors.tabsList).contains('Paragraph').click()

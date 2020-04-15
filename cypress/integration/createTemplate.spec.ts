@@ -1,12 +1,12 @@
-import * as createTemplate from "../pages/createTemplatePage"
-import { appCookies, createUUID, checkURLcontains } from '../pages/helper';
-import * as sectionsPage from "../pages/sectionsPage"
-import { templatesTableSelectors } from "../pages/templatesTable"
-import { RadioButton } from "../components/radio-button"
-import { sectionsPageSelectors } from "../pages/sectionsPage"
-import { createTemplatePageSelectors } from "../pages/createTemplatePage"
+import * as createTemplate from "../components/pages/createTemplatePage"
+import { appCookies, createUUID, checkURLcontains } from '../components/helper';
+import * as sectionsPage from "../components/pages/sectionsPage"
+import { templatesTableSelectors } from "../components/pages/templatesTablePage"
+import * as radioButton from "../components/buttons/radioButton"
+import { sectionsPageSelectors } from "../components/pages/sectionsPage"
+import { createTemplatePageSelectors } from "../components/pages/createTemplatePage"
 
-describe('Create template', () => {
+describe('Create template tests', () => {
 
     before(() => {
         cy.LogInUsingAPI()
@@ -14,10 +14,10 @@ describe('Create template', () => {
 
     beforeEach(() => {
         cy.visit('/')
-        checkURLcontains('/setup', 30000)
+        checkURLcontains('/templates', 30000)
         Cypress.Cookies.preserveOnce(...appCookies);
         cy.fixture('templatesTable.json').then((expectedValues) => {
-            cy.get(templatesTableSelectors.headersList, { timeout: 5000 }).each(($el, index) => expect($el.get(0).innerText).to.contain(expectedValues.tableHeaders[index]))
+            cy.get(templatesTableSelectors.headersList, { timeout: 10000 }).each(($el, index) => expect($el.get(0).innerText).to.contain(expectedValues.tableHeaders[index]))
         });
     });
 
@@ -34,7 +34,7 @@ describe('Create template', () => {
         cy.get(createTemplatePageSelectors.activeStep).should('have.text', ' 2 ')
         cy.get('@nextStepOrCreateTemplateButton').click()
         createTemplate.verifyFieldsAreRequiredAndErrorMessage()
-        RadioButton.verifyStates(false, true, false, true, true)
+        radioButton.verifyStates(false, true, false, true, true)
         const UUID = createUUID()
         cy.get(createTemplatePageSelectors.vitaDescriptionField).type('automated-' + UUID)
         cy.fixture('templatesTable.json').then((expectedValues) => {
@@ -43,17 +43,17 @@ describe('Create template', () => {
         cy.get('@nextStepOrCreateTemplateButton').click()
         cy.get(createTemplatePageSelectors.uniqueNameError).should('contain', 'Vita name must be unique')
         cy.get(createTemplatePageSelectors.vitaNameField).clear().type('automated-' + UUID)
-        RadioButton.clickEachRadioButton()
+        radioButton.clickEachRadioButton()
         cy.get(createTemplatePageSelectors.previousStepButton).click()
         cy.get(createTemplatePageSelectors.selectUnitDropdown).should('not.be.empty')
         cy.get(createTemplatePageSelectors.selectTemplateDropdown).should('not.be.empty')
         cy.get('@nextStepOrCreateTemplateButton').click()
-        RadioButton.verifyStates(true, false, true, false, false)
+        radioButton.verifyStates(true, false, true, false, false)
         cy.get('@nextStepOrCreateTemplateButton').click()
         checkURLcontains('/edit', 20000)
         cy.get(sectionsPageSelectors.sectionPageTitle).contains('Sections').should('be.visible')
         sectionsPage.clickOn('Edit General Information')
-        RadioButton.verifyStates(true, false, true, false, false)
+        radioButton.verifyStates(true, false, true, false, false)
     });
 
     it('Verify cancel template creation works and popup is displayed', () => {
@@ -67,11 +67,11 @@ describe('Create template', () => {
         cy.get(createTemplatePageSelectors.cancelPopupBackButton).should('not.be.visible')
         cy.get(createTemplatePageSelectors.cancelTemplateCreationButton).click()
         cy.get(createTemplatePageSelectors.cancelPopupYesButton).click()
-        checkURLcontains('/setup')
+        checkURLcontains('/templates')
         cy.get(templatesTableSelectors.addTemplateButton).click()
         cy.get(createTemplatePageSelectors.didYouMeanToCloneMessage).should('contain.text', 'Did you mean to clone a template?')
         cy.get(createTemplatePageSelectors.backToTemplatesButton).click()
-        checkURLcontains('/setup')
+        checkURLcontains('/templates')
         cy.get(templatesTableSelectors.addTemplateButton).click()
         createTemplate.selectUnitAndTemplate(0, 0)
         cy.get(createTemplatePageSelectors.nextStepOrCreateTemplateButton).click()
@@ -81,12 +81,12 @@ describe('Create template', () => {
         cy.get(createTemplatePageSelectors.cancelPopupBackButton).should('not.be.visible')
         cy.get(createTemplatePageSelectors.cancelTemplateCreationButton).click()
         cy.get(createTemplatePageSelectors.cancelPopupYesButton).click()
-        checkURLcontains('/setup')
+        checkURLcontains('/templates')
         cy.get(templatesTableSelectors.addTemplateButton).click()
         createTemplate.selectUnitAndTemplate(0, 0)
         cy.get(createTemplatePageSelectors.nextStepOrCreateTemplateButton).click()
         cy.get(createTemplatePageSelectors.didYouMeanToCloneMessage).should('contain.text', 'Did you mean to clone a template?')
         cy.get(createTemplatePageSelectors.backToTemplatesButton).click()
-        checkURLcontains('/setup')
+        checkURLcontains('/templates')
     });
 });
