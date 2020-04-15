@@ -10,7 +10,7 @@ describe('Show/Hide/Duplicate sections tests', () => {
 
     var templateIndex = -1
     beforeEach(() => {
-        cy.visit('/')
+        cy.visit('templates')
         checkURLcontains('/templates', 30000)
         Cypress.Cookies.preserveOnce(...appCookies);
         templateIndex++
@@ -160,7 +160,7 @@ describe('Show/Hide/Duplicate sections tests', () => {
         });
     });
 
-    it.only('Verify Duplicate works on shown sections', function () {
+    it('Verify Duplicate works on shown sections', function () {
         var sectionName: any
         // get the name of the section that is about to be duplicated
         sectionsPage.getShownSectionList().eq(0).last().then((element) => {
@@ -182,7 +182,7 @@ describe('Show/Hide/Duplicate sections tests', () => {
         });
     });
 
-    it.only('Verify Duplicate works on hidden sections', function () {
+    it('Verify Duplicate works on hidden sections', function () {
         var sectionName: any
         // get the name of the section that is about to be duplicated
         sectionsPage.getHiddenSectionList().eq(0).last().then((element) => {

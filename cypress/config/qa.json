@@ -1,5 +1,5 @@
 {
-  "baseUrl": "https://qa.test.vb.interfolio.com/",
+  "baseUrl": "https://qa.test.vb.interfolio.com/1/",
   "viewportWidth": 1200,
   "viewportHeight": 1024,
   "waitForAnimations": true,

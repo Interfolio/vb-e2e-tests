@@ -15,7 +15,7 @@ describe('Edit template styling sidebar tests', () => {
 
     var templateIndex = -1
     beforeEach(() => {
-        cy.visit('/')
+        cy.visit('templates')
         checkURLcontains('/templates', 30000)
         Cypress.Cookies.preserveOnce(...appCookies);
 
@@ -123,12 +123,6 @@ describe('Edit template styling sidebar tests', () => {
     });
 
     it('Edit citation style and discard change from template styling sidebar', function () {
-        //this test needs different template than the one from beforeEach
-        cy.visit('/')
-        cy.get(templatesTableSelectors.editCloneAndArchiveButtonList, { timeout: 30000 }).eq(9).contains('Edit').click()
-        checkURLcontains('/edit', 30000)
-        cy.get(sectionsPageSelectors.sectionPageTitle, { timeout: 30000 }).contains('Sections').should('be.visible')
-        sectionsPage.clickOn('Edit Template Styling')
         cy.get(templateStylingSidebarSelectors.tabsList).contains('Paragraph').click()
         templateStylingSidebar.selectAnOptionFromADropdown('Citation Style', this.expectedStylingValues.citationStyle.D)
         sidebarButtons.clickOn('Cancel')
@@ -142,12 +136,6 @@ describe('Edit template styling sidebar tests', () => {
     });
 
     it('Edit title options and discard changes from template styling sidebar', function () {
-        //this test needs different template than the one from beforeEach
-        cy.visit('/')
-        cy.get(templatesTableSelectors.editCloneAndArchiveButtonList, { timeout: 30000 }).eq(9).contains('Edit').click()
-        checkURLcontains('/edit', 30000)
-        cy.get(sectionsPageSelectors.sectionPageTitle, { timeout: 30000 }).contains('Sections').should('be.visible')
-        sectionsPage.clickOn('Edit Template Styling')
         // edit and discard changes on title tab
         cy.get(templateStylingSidebarSelectors.fontFamilyDropdown).filter(':visible').click()
         cy.get(templateStylingSidebarSelectors.dropdownOptions).contains(this.expectedStylingValues.fontFamily.Arial).click()
@@ -164,12 +152,6 @@ describe('Edit template styling sidebar tests', () => {
     });
 
     it('Edit headlines options and discard changes from template styling sidebar', function () {
-        //this test needs different template than the one from beforeEach
-        cy.visit('/')
-        cy.get(templatesTableSelectors.editCloneAndArchiveButtonList, { timeout: 30000 }).eq(9).contains('Edit').click()
-        checkURLcontains('/edit', 30000)
-        cy.get(sectionsPageSelectors.sectionPageTitle, { timeout: 30000 }).contains('Sections').should('be.visible')
-        sectionsPage.clickOn('Edit Template Styling')
         cy.get(templateStylingSidebarSelectors.tabsList).contains('Headings').click()
         // edit heading 1 and discard changes
         cy.get(templateStylingSidebarSelectors.headingsList).eq(0).click()
@@ -201,12 +183,6 @@ describe('Edit template styling sidebar tests', () => {
     });
 
     it('Edit paragraph options and discard changes from template styling sidebar', function () {
-        //this test needs different template than the one from beforeEach
-        cy.visit('/')
-        cy.get(templatesTableSelectors.editCloneAndArchiveButtonList, { timeout: 30000 }).eq(9).contains('Edit').click()
-        checkURLcontains('/edit', 30000)
-        cy.get(sectionsPageSelectors.sectionPageTitle, { timeout: 30000 }).contains('Sections').should('be.visible')
-        sectionsPage.clickOn('Edit Template Styling')
         // edit and discard changes on paragraph tab
         cy.get(templateStylingSidebarSelectors.tabsList).contains('Paragraph').click()
         cy.get(templateStylingSidebarSelectors.spaceAfterDropdown).filter(':visible').click()
