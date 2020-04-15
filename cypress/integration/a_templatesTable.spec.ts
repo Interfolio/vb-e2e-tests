@@ -12,7 +12,7 @@ describe('Templates table tests', function () {
 
     beforeEach(() => {
         Cypress.Cookies.preserveOnce(...appCookies);
-        cy.visit('/').get(templatesTableSelectors.templateTablePageTitle, { timeout: 20000 }).should('be.visible')
+        cy.visit('templates').get(templatesTableSelectors.templateTablePageTitle, { timeout: 20000 }).should('be.visible')
         checkURLcontains('/templates', 30000)
         cy.fixture('templatesTable.json').as('expectedValues');
     });

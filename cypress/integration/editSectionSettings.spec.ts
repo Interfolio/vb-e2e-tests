@@ -13,7 +13,7 @@ describe('Edit section settings tests', () => {
 
     var templateIndex = -1
     beforeEach(() => {
-        cy.visit('/')
+        cy.visit('templates')
         checkURLcontains('/templates', 30000)
         Cypress.Cookies.preserveOnce(...appCookies);
         templateIndex++
@@ -197,7 +197,7 @@ describe('Edit section settings tests', () => {
         });
     });
 
-    it.only('Change column order on tabular display style and dismiss changes', function () {
+    it('Change column order on tabular display style and dismiss changes', function () {
         sectionsPage.getHiddenSectionList().contains('Grants').parent().parent().parent().contains("Edit").click()
         sidebarButtons.clickOnEditSectionSiderbarButton('Settings')
         cy.get(sectionSettingsSidebarSelectors.displayStyleOptions).click()
@@ -224,7 +224,7 @@ describe('Edit section settings tests', () => {
         });
     });
 
-    it.only('Change visibility for a column on tabular display style and dismiss changes', function () {
+    it('Change visibility for a column on tabular display style and dismiss changes', function () {
         sectionsPage.getHiddenSectionList().contains('Grants').parent().parent().parent().contains("Edit").click()
         sidebarButtons.clickOnEditSectionSiderbarButton('Settings')
         cy.get(sectionSettingsSidebarSelectors.displayStyleOptions).click()

@@ -14,7 +14,7 @@ describe('Edit general information tests', () => {
 
     var templateIndex = -1
     beforeEach(() => {
-        cy.visit('/')
+        cy.visit('templates')
         checkURLcontains('/templates', 30000)
         Cypress.Cookies.preserveOnce(...appCookies);
 

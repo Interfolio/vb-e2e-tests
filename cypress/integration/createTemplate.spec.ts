@@ -13,7 +13,7 @@ describe('Create template tests', () => {
     });
 
     beforeEach(() => {
-        cy.visit('/')
+        cy.visit('templates')
         checkURLcontains('/templates', 30000)
         Cypress.Cookies.preserveOnce(...appCookies);
         cy.fixture('templatesTable.json').then((expectedValues) => {
