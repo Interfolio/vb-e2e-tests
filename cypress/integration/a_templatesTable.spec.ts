@@ -1,8 +1,8 @@
-import * as templatesTable from "../pages/templatesTable"
-import { checkURLcontains, appCookies } from '../pages/helper';
-import { templatesTableSelectors } from "../pages/templatesTable"
+import * as templatesTable from "../components/pages/templatesTablePage"
+import { checkURLcontains, appCookies } from '../components/helper';
+import { templatesTableSelectors } from "../components/pages/templatesTablePage"
 
-describe('View Templates Table Tests', function () {
+describe('Templates table tests', function () {
 
     before(() => {
         cy.visit(Cypress.env('loginUrl'))
@@ -12,7 +12,7 @@ describe('View Templates Table Tests', function () {
     beforeEach(() => {
         Cypress.Cookies.preserveOnce(...appCookies);
         cy.visit('/').get(templatesTableSelectors.templateTablePageTitle, { timeout: 20000 }).should('be.visible')
-        checkURLcontains('/setup', 30000)
+        checkURLcontains('/templates', 30000)
         cy.fixture('templatesTable.json').as('expectedValues');
     });
 
@@ -109,5 +109,4 @@ describe('View Templates Table Tests', function () {
         cy.get(templatesTableSelectors.templateNamelist).should('have.length', 11)
         cy.get(templatesTableSelectors.unitList).should('contain', 'Marketing')
     })
-
 })

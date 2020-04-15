@@ -1,48 +1,47 @@
-import * as sectionsPage from "../pages/sectionsPage"
-import * as generalInformationSidebar from "../pages/generalInformationSidebar"
-import { createUUID, appCookies, checkURLcontains } from '../pages/helper'
-import { generalInformationSidebarSelectors } from "../pages/generalInformationSidebar"
-import { templatesTableSelectors } from "../pages/templatesTable"
-import { sectionsPageSelectors } from "../pages/sectionsPage"
-import { RadioButton } from "../components/radio-button"
-import { SidebarButtons } from "../components/sidebar-buttons"
+import * as sectionsPage from "../components/pages/sectionsPage"
+import * as generalInformationSidebar from "../components/sidebars/generalInformationSidebar"
+import { clickOnEditButtonForASpecificTemplate, createUUID, appCookies, checkURLcontains } from '../components/helper'
+import { generalInformationSidebarSelectors } from "../components/sidebars/generalInformationSidebar"
+import { sectionsPageSelectors } from "../components/pages/sectionsPage"
+import * as radioButton from "../components/buttons/radioButton"
+import * as sidebarButtons from "../components/buttons/sidebarButtons"
 
-
-describe('Create template', () => {
+describe('Edit general information tests', () => {
+    
     before(() => {
         cy.LogInUsingAPI()
     });
 
+    var templateIndex = -1
     beforeEach(() => {
         cy.visit('/')
-        checkURLcontains('/setup', 30000)
+        checkURLcontains('/templates', 30000)
         Cypress.Cookies.preserveOnce(...appCookies);
 
-        cy.get(templatesTableSelectors.editCloneAndArchiveButtonList).contains('Edit').click()
-        checkURLcontains('/edit', 30000)
-        cy.get(sectionsPageSelectors.sectionPageTitle, { timeout: 30000 }).contains('Sections').should('be.visible')
+        templateIndex++
+        clickOnEditButtonForASpecificTemplate(templateIndex)
         sectionsPage.clickOn('Edit General Information')
     });
 
-    it.only('Edit template name, description and toggles state from general information sidebar', function () {
+    it('Edit template name, description and toggles state from general information sidebar', function () {
         cy.get(generalInformationSidebarSelectors.sidebarTitle).should('contain', 'General Information')
         const UUID = createUUID()
         cy.get(generalInformationSidebarSelectors.vitaTemplateNameField).clear().type('automated-N-' + UUID)
         cy.get(generalInformationSidebarSelectors.vitaTemplateDescriptionField).clear().type('automated-D-' + UUID)
-        RadioButton.verifyStates(false, true, false, true, true)
-        RadioButton.clickEachRadioButton()
-        SidebarButtons.clickOn('Apply Changes')
+        radioButton.verifyStates(false, true, false, true, true)
+        radioButton.clickEachRadioButton()
+        sidebarButtons.clickOn('Apply Changes')
         cy.get(sectionsPageSelectors.templateName).should('contain', 'automated-N-' + UUID)
         cy.get(sectionsPageSelectors.templateDescription).should('contain', 'automated-D-' + UUID)
         sectionsPage.clickOn('Edit General Information')
-        RadioButton.verifyStates(true, false, true, false, false)
+        radioButton.verifyStates(true, false, true, false, false)
     });
 
     it('Verify name uniqueness and that name and description are mandatory', function () {
         cy.fixture('templatesTable.json').then((expectedValues) => {
             cy.get(generalInformationSidebarSelectors.vitaTemplateNameField).clear().type(expectedValues.activeTableEntries[1][0])
         });
-        SidebarButtons.clickOn('Apply Changes')
+        sidebarButtons.clickOn('Apply Changes')
         cy.get(generalInformationSidebarSelectors.nameNotUniqueError).should('contain', 'Vita name must be unique.')
         generalInformationSidebar.checkValidationWorks(generalInformationSidebarSelectors.vitaTemplateNameField)
         generalInformationSidebar.checkValidationWorks(generalInformationSidebarSelectors.vitaTemplateDescriptionField)

@@ -17,6 +17,7 @@ export const templatesTableSelectors = {
     unitDropdownValues: '.ant-select-dropdown-menu-item.ng-star-inserted',
     excludeSubunitsCheckbox: '.m-l-large'
 }
+
 export function verifyEntryInTheTemplateTable(index: number, expectedEntry: Array<number>) {
     cy.get(templatesTableSelectors.templateNamelist).eq(index).as('templateNamelist')
     cy.get(templatesTableSelectors.sourceTemplateList).eq(index).as('sourceTemplateList')

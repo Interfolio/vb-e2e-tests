@@ -1,5 +1,5 @@
-import { templatesTableSelectors } from "../pages/templatesTable"
-import { createUUID } from '../pages/helper';
+import { templatesTableSelectors } from "./templatesTablePage"
+import { createUUID } from '../helper';
 
 export const createTemplatePageSelectors = {
     activeStep: '.step-icon.ant-col.active',
