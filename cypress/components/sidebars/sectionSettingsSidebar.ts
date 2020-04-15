@@ -14,10 +14,7 @@ export const sectionSettingsSidebarSelectors = {
     checkBoxClass: 'ant-checkbox ant-checkbox-checked',
     editTableColumnsButton: '.edit-table-columns',
     tableColumnsList: ".m-b-tiny.cdk-drag:nth-child(n) .section",
-
-    // shownOrHiddenButtonList: '.m-b-tiny.cdk-drag:nth-child(n) .section .ant-col.ant-col-7 .ant-btn.ng-star-inserted',
-    // moveUpArrowList: '.m-b-tiny.cdk-drag:nth-child(n) .section .p-none.m-r-smaller.m-l-smaller',
-    columnsList: '.m-b-tiny.cdk-drag:nth-child(n) .section'
+    columnsList: '.m-b-tiny.cdk-drag:nth-child(n) .section',
 }
 
 

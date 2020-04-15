@@ -1,6 +1,6 @@
 import * as sidebarButtons from "../buttons/sidebarButtons"
 import * as sectionsPage from "../pages/sectionsPage"
-import { discardChangesPopup } from '../buttons/popupButtons';
+import { popupButtonsSelectors } from '../buttons/popupButtons';
 
 export const generalInformationSidebarSelectors = {
     sidebarTitle: '.ant-col.ant-typography',
@@ -23,14 +23,14 @@ export function checkValidationWorks(field: string) {
 
 export function verifyChangesAreNotLost(buttonText: string) {
     sidebarButtons.clickOn(buttonText)
-    cy.get(discardChangesPopup.cancelButton).click()
+    cy.get(popupButtonsSelectors.cancelButton).click()
     cy.get(generalInformationSidebarSelectors.vitaTemplateNameField).invoke('val').then(text => expect(text).to.deep.equal('updated name'));
     cy.get(generalInformationSidebarSelectors.vitaTemplateDescriptionField).invoke('val').then(text => expect(text).to.deep.equal('updated description'));
 }
 
 export function verifyChangesAreDismissed(buttonText: string, initialName: string, initialDescription: string) {
     sidebarButtons.clickOn(buttonText)
-    cy.get(discardChangesPopup.yesButton).click()
+    cy.get(popupButtonsSelectors.yesButton).click()
     sectionsPage.clickOn('Edit General Information')
     cy.get(generalInformationSidebarSelectors.vitaTemplateNameField).invoke('val').then(text => expect(text).to.deep.equal(initialName));
     cy.get(generalInformationSidebarSelectors.vitaTemplateDescriptionField).invoke('val').then(text => expect(text).to.deep.equal(initialDescription));

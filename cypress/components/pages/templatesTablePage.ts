@@ -15,7 +15,7 @@ export const templatesTableSelectors = {
     paginationDropdownValues: '.ant-select-dropdown-menu-item',
     unitDropdown: 'div#fis-body-content span > nz-select > div > div',
     unitDropdownValues: '.ant-select-dropdown-menu-item.ng-star-inserted',
-    excludeSubunitsCheckbox: '.m-l-large'
+    excludeSubunitsCheckbox: '.m-l-large',
 }
 
 export function verifyEntryInTheTemplateTable(index: number, expectedEntry: Array<number>) {

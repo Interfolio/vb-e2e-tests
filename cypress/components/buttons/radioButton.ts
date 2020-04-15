@@ -1,5 +1,5 @@
 export const sidebarButtonsSelectors = {
-    allRadioButtons: '.ant-switch-inner'
+    allRadioButtons: '.ant-switch-inner',
 }
 
 export function checkState(isOn: boolean, index: number) {

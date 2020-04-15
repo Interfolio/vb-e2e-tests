@@ -1,3 +1,4 @@
+/// <reference types="Cypress" />
 import * as templatesTable from "../components/pages/templatesTablePage"
 import { checkURLcontains, appCookies } from '../components/helper';
 import { templatesTableSelectors } from "../components/pages/templatesTablePage"
