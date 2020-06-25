@@ -13,8 +13,8 @@ describe('Edit section settings tests', () => {
 
     var templateIndex = -1
     beforeEach(() => {
-        cy.visit('templates')
-        checkURLcontains('/templates', 30000)
+        cy.visit('templates/institutional')
+        checkURLcontains('templates/institutional', 30000)
         Cypress.Cookies.preserveOnce(...appCookies);
         templateIndex++
         clickOnEditButtonForASpecificTemplate(templateIndex)
@@ -25,10 +25,9 @@ describe('Edit section settings tests', () => {
         const UUID = createUUID()
         const sectionName = 'automated-name-' + UUID + ' Contact Info'
         const displayStyle = this.expectedSettingsValues.displayStyle.Listing
-        sectionSettingsSidebar.modifyCommonFieldsOnSection('Contact info', sectionName, 'automated-desc-' + UUID, displayStyle)
+        sectionSettingsSidebar.modifyCommonFieldsOnSection('Contact Info', sectionName, 'automated-desc-' + UUID, displayStyle)
         sidebarButtons.clickOn('Apply Changes')
         cy.get(popupButtonsSelectors.toastMessage).should('be.visible')
-        sidebarButtons.clickOnEditSectionSiderbarButton('Settings')
         cy.get(sectionSettingsSidebarSelectors.displayStyleOptions).should('contain.text', displayStyle)
         sidebarButtons.clickOn('Cancel')
         sectionsPage.getHiddenSectionList().should('contain.text', sectionName)
@@ -36,17 +35,16 @@ describe('Edit section settings tests', () => {
 
     it('Edit settings for Grants archetype section', function () {
         const UUID = createUUID()
-        const sectionName = 'automated-name-' + UUID + ' Grants'
+        const sectionName = 'automated-name-' + UUID + ' Grant'
         const displayStyle = this.expectedSettingsValues.displayStyle.TraditionalDate
         const sortOrder = this.expectedSettingsValues.sortOrder.Descending
-        const basedOn = this.expectedSettingsValues.basedOn.StartSemester
+        const basedOn = this.expectedSettingsValues.basedOn.Field1
         const numbering = this.expectedSettingsValues.numbering.ContinueNumbering
-        sectionSettingsSidebar.modifyCommonFieldsOnSection('Grants', sectionName, 'automated-desc-' + UUID, displayStyle)
+        sectionSettingsSidebar.modifyCommonFieldsOnSection('Grant', sectionName, 'automated-desc-' + UUID, displayStyle)
         sectionSettingsSidebar.modifySortOrderBasedOnAndNumbering(sortOrder, basedOn, numbering)
         sectionSettingsSidebar.modifyCheckboxes()
         sidebarButtons.clickOn('Apply Changes')
         cy.get(popupButtonsSelectors.toastMessage).should('be.visible')
-        sidebarButtons.clickOnEditSectionSiderbarButton('Settings')
         cy.get(sectionSettingsSidebarSelectors.displayStyleOptions).should('contain.text', displayStyle)
         sectionSettingsSidebar.verifySortOrderBasedOnAndNumbering(sortOrder, basedOn, numbering)
         sectionSettingsSidebar.verifyCheckboxes()
@@ -62,7 +60,6 @@ describe('Edit section settings tests', () => {
         cy.get(sectionSettingsSidebarSelectors.displayLinkToAttachements).click()
         sidebarButtons.clickOn('Apply Changes')
         cy.get(popupButtonsSelectors.toastMessage).should('be.visible')
-        sidebarButtons.clickOnEditSectionSiderbarButton('Settings')
         cy.get(sectionSettingsSidebarSelectors.displayStyleOptions).should('contain.text', displayStyle)
         cy.get(sectionSettingsSidebarSelectors.editTableColumnsButton).should('be.visible')
         cy.get(sectionSettingsSidebarSelectors.displayLinkToAttachements).children().eq(0).should('not.have.class', sectionSettingsSidebarSelectors.checkBoxClass)
@@ -72,17 +69,16 @@ describe('Edit section settings tests', () => {
 
     it('Edit settings for Standard archetype section', function () {
         const UUID = createUUID()
-        const sectionName = 'automated-name-' + UUID + ' Professional Development'
+        const sectionName = 'automated-name-' + UUID + ' Institutional Committees'
         const displayStyle = this.expectedSettingsValues.displayStyle.Tabular
         const sortOrder = this.expectedSettingsValues.sortOrder.Ascending
-        const basedOn = this.expectedSettingsValues.basedOn.EndSemester
+        const basedOn = this.expectedSettingsValues.basedOn.Field1
         const numbering = this.expectedSettingsValues.numbering.NoNumbering
-        sectionSettingsSidebar.modifyCommonFieldsOnSection('Professional Development', sectionName, 'automated-desc-' + UUID, displayStyle)
+        sectionSettingsSidebar.modifyCommonFieldsOnSection('Institutional Committees ', sectionName, 'automated-desc-' + UUID, displayStyle)
         sectionSettingsSidebar.modifySortOrderBasedOnAndNumbering(sortOrder, basedOn, numbering)
         sectionSettingsSidebar.modifyCheckboxes()
         sidebarButtons.clickOn('Apply Changes')
         cy.get(popupButtonsSelectors.toastMessage).should('be.visible')
-        sidebarButtons.clickOnEditSectionSiderbarButton('Settings')
         cy.get(sectionSettingsSidebarSelectors.displayStyleOptions).should('contain.text', displayStyle)
         sectionSettingsSidebar.verifySortOrderBasedOnAndNumbering(sortOrder, basedOn, numbering)
         sectionSettingsSidebar.verifyCheckboxes()
@@ -95,14 +91,13 @@ describe('Edit section settings tests', () => {
         const sectionName = 'automated-name-' + UUID + ' Scholarly Contributions'
         const displayStyle = this.expectedSettingsValues.displayStyle.TraditionalDate
         const sortOrder = this.expectedSettingsValues.sortOrder.Ascending
-        const basedOn = this.expectedSettingsValues.basedOn.StartSemester
+        const basedOn = this.expectedSettingsValues.basedOn.Field1
         const numbering = this.expectedSettingsValues.numbering.RestartNumbering
         sectionSettingsSidebar.modifyCommonFieldsOnSection('Scholarly Contributions', sectionName, 'automated-desc-' + UUID, displayStyle)
         sectionSettingsSidebar.modifySortOrderBasedOnAndNumbering(sortOrder, basedOn, numbering)
         sectionSettingsSidebar.modifyCheckboxes()
         sidebarButtons.clickOn('Apply Changes')
         cy.get(popupButtonsSelectors.toastMessage).should('be.visible')
-        sidebarButtons.clickOnEditSectionSiderbarButton('Settings')
         cy.get(sectionSettingsSidebarSelectors.displayStyleOptions).should('contain.text', displayStyle)
         sectionSettingsSidebar.verifySortOrderBasedOnAndNumbering(sortOrder, basedOn, numbering)
         sectionSettingsSidebar.verifyCheckboxes()
@@ -156,7 +151,6 @@ describe('Edit section settings tests', () => {
         // apply changes and navigate back to see changes are persisted
         sidebarButtons.clickOn('Apply Changes')
         cy.get(popupButtonsSelectors.toastMessage).should('be.visible')
-        cy.get(sectionSettingsSidebarSelectors.editTableColumnsButton).children().click()
         sectionSettingsSidebar.getColumnName(0).then((name) => {
             assert.strictEqual(name, columnName)
         });
@@ -183,7 +177,6 @@ describe('Edit section settings tests', () => {
         // apply changes and check that changes are persisted
         sidebarButtons.clickOn('Apply Changes')
         cy.get(popupButtonsSelectors.toastMessage).should('be.visible')
-        cy.get(sectionSettingsSidebarSelectors.editTableColumnsButton).children().click()
         sectionSettingsSidebar.getNthColumnShownOrHiddenState(4).then((state) => {
             assert.notDeepEqual(state, columnState)
         });

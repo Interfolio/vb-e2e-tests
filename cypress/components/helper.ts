@@ -27,7 +27,7 @@ export const appCookies = [
 ];
 
 export function createUUID() {
-  return 'xxxxxxxx-xxxx'.replace(/[xy]/g, function (c) {
+  return 'xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
     var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
     return v.toString(16);
   });
@@ -40,5 +40,5 @@ export function checkURLcontains(termToVerify: string, time: number = 0) {
 export function clickOnEditButtonForASpecificTemplate(templateIndex: number) {
   cy.get(templatesTableSelectors.editCloneAndArchiveButtonList, { timeout: 30000 }).eq(templateIndex).contains('Edit').click()
   checkURLcontains('/edit', 30000)
-  cy.get(sectionsPageSelectors.sectionPageTitle, { timeout: 30000 }).contains('Sections').should('be.visible')
+  cy.get(sectionsPageSelectors.sectionPageTitle, { timeout: 30000 }).should('contain.text','Sections')
 }

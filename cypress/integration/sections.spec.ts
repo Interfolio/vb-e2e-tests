@@ -10,8 +10,8 @@ describe('Show/Hide/Duplicate sections tests', () => {
 
     var templateIndex = -1
     beforeEach(() => {
-        cy.visit('templates')
-        checkURLcontains('/templates', 30000)
+        cy.visit('templates/institutional')
+        checkURLcontains('templates/institutional', 30000)
         Cypress.Cookies.preserveOnce(...appCookies);
         templateIndex++
         clickOnEditButtonForASpecificTemplate(templateIndex)
@@ -42,7 +42,7 @@ describe('Show/Hide/Duplicate sections tests', () => {
         cy.get(sectionsPageSelectors.shownOrHiddenSectionsCount).contains('Shown').then((shownSectionsAfterChange) => {
             let shownSections = sectionsPage.getNumberOfSections(shownSectionsAfterChange.text())
             assert.strictEqual(shownSections, initialNumberOfShownSections + 1)
-            //verify section name is now in shown list 
+            // verify section name is now in shown list 
             sectionsPage.getShownSectionList().eq(shownSections - 1).last().then((element) => {
                 let indexOfEdit = element.text().indexOf('Edit')
                 assert.strictEqual(element.text().substring(0, indexOfEdit), sectionName)
@@ -56,6 +56,7 @@ describe('Show/Hide/Duplicate sections tests', () => {
 
     it('Verify moving a section to hidden using arrow down', function () {
         var initialNumberOfHiddenSections: number, sectionName: string, initialNumberOfShownSections: number
+        sectionsPage.getHiddenSectionList().eq(0).find(sectionsPageSelectors.moveSectionUpButton).click()
         // get initial number of shown sections
         cy.get(sectionsPageSelectors.shownOrHiddenSectionsCount).contains('Shown').then((initialShownSections) =>
             initialNumberOfShownSections = sectionsPage.getNumberOfSections(initialShownSections.text()))
@@ -78,7 +79,7 @@ describe('Show/Hide/Duplicate sections tests', () => {
         // verify the number of hidden sections increased by 1 
         cy.get(sectionsPageSelectors.shownOrHiddenSectionsCount).contains('Hidden').then((hiddenSectionsAfterChange) => {
             assert.strictEqual(sectionsPage.getNumberOfSections(hiddenSectionsAfterChange.text()), initialNumberOfHiddenSections + 1)
-            //verify section name is now in hidden list 
+            // verify section name is now in hidden list 
             sectionsPage.getShownSectionList().eq(0).last().then((element) => {
                 let indexOfEdit = element.text().indexOf('Edit')
                 assert.strictEqual(element.text().substring(0, indexOfEdit), sectionName)
@@ -120,10 +121,11 @@ describe('Show/Hide/Duplicate sections tests', () => {
 
     it('Verify Hide Section works', function () {
         var sectionName: string
+        sectionsPage.getHiddenSectionList().eq(0).find(sectionsPageSelectors.moveSectionUpButton).click()
         // get the name of the section that is about to be moved to hidden
         sectionsPage.getShownSectionList().eq(0).last().then((element) => {
             let indexOfEdit = element.text().indexOf('Edit')
-            sectionName = element.text().substring(0, indexOfEdit)
+            sectionName = element.text().substring(0, indexOfEdit).trim()
         });
         // click "Hide Section" button
         sectionsPage.getShownSectionList().eq(0).find(sectionsPageSelectors.showOrHideSectionButton).click()
@@ -135,7 +137,7 @@ describe('Show/Hide/Duplicate sections tests', () => {
         // verify section is now in hidden section
         sectionsPage.getHiddenSectionList().eq(0).last().then((element) => {
             let indexOfEdit = element.text().indexOf('Edit')
-            assert.strictEqual(element.text().substring(0, indexOfEdit), sectionName)
+            assert.strictEqual(element.text().substring(0, indexOfEdit).trim(), sectionName)
         });
     });
 
@@ -166,19 +168,20 @@ describe('Show/Hide/Duplicate sections tests', () => {
         sectionsPage.getShownSectionList().eq(0).last().then((element) => {
             let indexOfEdit = element.text().indexOf('Edit')
             sectionName = element.text().substring(0, indexOfEdit)
-        });
-        // click "Duplicate" button
-        sectionsPage.getShownSectionList().eq(0).contains("Duplicate").click()
-        cy.get(popupButtonsSelectors.yesButton).click().wait(1000)
-        // save changes
-        sectionsPage.clickOn('Save')
-        cy.get(popupButtonsSelectors.toastMessage).should('be.visible')
-        sectionsPage.clickOn('Back')
-        clickOnEditButtonForASpecificTemplate(templateIndex)
-        // verify a new section is created with name "Copy of" + original name
-        sectionsPage.getShownSectionList().eq(1).last().then((element) => {
-            let indexOfEdit = element.text().indexOf('Edit')
-            assert.strictEqual(element.text().substring(0, indexOfEdit), ' Copy of' + sectionName)
+
+            // click "Duplicate" button
+            sectionsPage.getShownSectionList().eq(0).contains("Duplicate").click()
+            cy.get(popupButtonsSelectors.duplicateButton).click().wait(1000)
+            // save changes
+            sectionsPage.clickOn('Save')
+            cy.get(popupButtonsSelectors.toastMessage).should('be.visible')
+            sectionsPage.clickOn('Back')
+            clickOnEditButtonForASpecificTemplate(templateIndex)
+            // verify a new section is created with name "Copy of" + original name
+            sectionsPage.getShownSectionList().eq(1).last().then((element) => {
+                let indexOfEdit = element.text().indexOf('Edit')
+                assert.strictEqual(element.text().substring(0, indexOfEdit), 'Copy of  ' + sectionName)
+            });
         });
     });
 
@@ -191,7 +194,7 @@ describe('Show/Hide/Duplicate sections tests', () => {
         });
         // click "Duplicate" button
         sectionsPage.getHiddenSectionList().eq(0).contains("Duplicate").click()
-        cy.get(popupButtonsSelectors.yesButton).click().wait(1000)
+        cy.get(popupButtonsSelectors.duplicateButton).click().wait(1000)
         // save changes
         sectionsPage.clickOn('Save')
         cy.get(popupButtonsSelectors.toastMessage).should('be.visible')
@@ -200,7 +203,7 @@ describe('Show/Hide/Duplicate sections tests', () => {
         // verify a new section is created with name "Copy of" + original name
         sectionsPage.getHiddenSectionList().eq(1).last().then((element) => {
             let indexOfEdit = element.text().indexOf('Edit')
-            assert.strictEqual(element.text().substring(0, indexOfEdit), ' Copy of' + sectionName)
+            assert.strictEqual(element.text().substring(0, indexOfEdit), 'Copy of ' + sectionName)
         });
     });
 });

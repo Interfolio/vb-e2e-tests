@@ -2,7 +2,7 @@ export const sectionsPageSelectors = {
     blueColoredButtons: '.ant-btn.ant-btn-primary',
     whiteColoredButtons: '.ant-btn.ant-btn-default',
     noBorderButtons: '.ant-btn.ant-btn-link',
-    sectionPageTitle: '.ant-typography',
+    sectionPageTitle: 'h2.ant-typography',
     templateName: '.ant-row-flex-bottom > .ant-col-7 > h1',
     templateDescription: '.ant-row-flex-bottom > .ant-col-7 > div',
     shownOrHiddenSectionList: '.m-b-large.section-list',
@@ -10,6 +10,7 @@ export const sectionsPageSelectors = {
     moveSectionDownButton: '.down-button.ant-btn.ant-btn-link',
     shownOrHiddenSectionsCount: '.body-medium.m-b-small',
     showOrHideSectionButton: '.ant-btn.ng-star-inserted',
+    allSectionsList: '.m-b-small.cdk-drag'
 }
 
 export function clickOn(buttonText: string) {

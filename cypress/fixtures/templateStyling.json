@@ -6,10 +6,10 @@
         "Listing": "Listing"
     },
     "citationStyle": {
-        "A": "A",
-        "B": "B",
-        "C": "C",
-        "D": "D"
+        "AmericanChemicalSociety": "American Chemical Society",
+        "BluebookLawReview": "Bluebook Law Review",
+        "Nature": "Nature",
+        "Vancouver": "Vancouver"
     },
     "fontFamily": {
         "Times": "Times",
@@ -19,15 +19,15 @@
         "SansSerif": "Sans-Serif"
     },
     "fontSize": {
-        "s4px": "4px",
-        "s8px": "8px",
-        "s12px": "12px",
-        "s16px": "16px",
-        "s20px": "20px",
-        "s24px": "24px",
-        "s28px": "28px",
-        "s30px": "30px",
-        "s32px": "32px"
+        "s4pt": "4pt",
+        "s8pt": "8pt",
+        "s12pt": "12pt",
+        "s16pt": "16pt",
+        "s20pt": "20pt",
+        "s24pt": "24pt",
+        "s28pt": "28pt",
+        "s30pt": "30pt",
+        "s32pt": "32pt"
     },
     "fontColor": {
         "c000000": "#000000",

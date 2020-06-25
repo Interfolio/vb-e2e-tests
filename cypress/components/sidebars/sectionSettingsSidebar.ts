@@ -1,5 +1,6 @@
 import * as sidebarButtons from "../buttons/sidebarButtons"
 import * as sectionsPage from "../pages/sectionsPage"
+import { sectionsPageSelectors } from "../pages/sectionsPage"
 
 export const sectionSettingsSidebarSelectors = {
     sectionName: 'input[formcontrolname="name"]',
@@ -18,7 +19,13 @@ export const sectionSettingsSidebarSelectors = {
 }
 
 
-export function modifyCommonFieldsOnSection(sectionArchetype: string, sectionName: string, sectionDescription: string, displayStyle: string) {
+export function modifyCommonFieldsOnSection(sectionArchetype: any, sectionName: string, sectionDescription: string, displayStyle: string) {
+    // move all sections to hidden
+    cy.get(sectionsPageSelectors.shownOrHiddenSectionsCount).contains('Shown').then((shownSections) => {
+        let numberOfShownSections = sectionsPage.getNumberOfSections(shownSections.text())
+        for (let i = 0; i < numberOfShownSections; i++)
+            sectionsPage.getShownSectionList().last().find(sectionsPageSelectors.moveSectionDownButton).click()
+    });
     sectionsPage.getHiddenSectionList().contains(sectionArchetype).parent().parent().parent().contains("Edit").click()
     sidebarButtons.clickOnEditSectionSiderbarButton('Settings')
     cy.get(sectionSettingsSidebarSelectors.sectionName).clear().type(sectionName)
@@ -55,21 +62,21 @@ export function verifyCheckboxes() {
 }
 
 export function getColumnName(index: number) {
-    return cy.get(sectionSettingsSidebarSelectors.columnsList).eq(index).children().eq(1).invoke('text')
+    return cy.log(`get column number ${index} name`).get(sectionSettingsSidebarSelectors.columnsList).eq(index).children().eq(1).invoke('text')
 }
 
 export function makeNthColumnShownOrHidden(index: number) {
-    return cy.get(sectionSettingsSidebarSelectors.columnsList).eq(index).children().eq(2).children().children().eq(0).click()
+    return cy.log(`make column number ${index} Shown or Hidden`).get(sectionSettingsSidebarSelectors.columnsList).eq(index).children().eq(2).click()
 }
 
 export function moveNthColumnUp(index: number) {
-    return cy.get(sectionSettingsSidebarSelectors.columnsList).eq(index).children().eq(2).children().children().eq(1).click()
+    return cy.log(`move column number ${index} up`).get(sectionSettingsSidebarSelectors.columnsList).eq(index).children().eq(3).children().eq(0).click()
 }
 
 export function moveNthColumnDown(index: number) {
-    return cy.get(sectionSettingsSidebarSelectors.columnsList).eq(index).children().eq(2).children().children().eq(2).click()
+    return cy.log(`move column number ${index} down`).get(sectionSettingsSidebarSelectors.columnsList).eq(index).children().eq(3).children().eq(2).click()
 }
 
 export function getNthColumnShownOrHiddenState(index: number) {
-    return cy.get(sectionSettingsSidebarSelectors.columnsList).eq(index).children().eq(2).children().children().eq(0).children().eq(1).invoke('text')
+    return cy.log(`get number ${index} column shown or hidden state`).get(sectionSettingsSidebarSelectors.columnsList).eq(index).children().eq(2).invoke('text')
 }
