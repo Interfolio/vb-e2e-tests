@@ -3,9 +3,10 @@ import { createUUID } from '../helper';
 
 export const createTemplatePageSelectors = {
     activeStep: '.step-icon.ant-col.active',
-    selectUnitDropdown: 'nz-select[formcontrolname="unitId"]',
-    selectTemplateDropdown: 'nz-select[formcontrolname="baseTemplateId"]',
-    unitAndTemplateList: '.ant-select-dropdown-menu > :nth-child(n)',
+    sourceUnitDropdown: 'nz-select[formcontrolname="sourceUnitId"]',
+    templateDropdown: 'nz-select[formcontrolname="baseTemplateId"]',
+    destinationUnit: 'nz-select[formcontrolname="destinationUnitId"]',
+    dropdownValuesList: '.ant-select-dropdown-menu > :nth-child(n)',
     nextStepOrCreateTemplateButton: '.ant-btn.ng-star-inserted',
     vitaNameField: 'input[formcontrolname="name"]',
     vitaDescriptionField: 'textarea[formcontrolname="description"]',
@@ -13,20 +14,21 @@ export const createTemplatePageSelectors = {
     dropdownInError: '.ant-form-item-control.has-error',
     messageAlert: '.ant-alert.ng-trigger',
     cancelTemplateCreationButton: '.ant-btn.ant-btn-default',
-    cancelPopupYesButton: '.ant-modal-confirm-btns > button.ant-btn.ng-star-inserted.ant-btn-primary',
-    cancelPopupBackButton: '.ant-modal-confirm-btns > button.ant-btn.ng-star-inserted.ant-btn-default',
     uniqueNameError: '.ng-trigger',
     didYouMeanToCloneMessage: '.info-text',
     backToTemplatesButton: '.info-text-back-link',
 }
 
-export function selectUnitAndTemplate(unitIndex: number, templateIndex: number) {
-    cy.get(createTemplatePageSelectors.selectUnitDropdown).click()
+export function selectUnitAndTemplate(sourceUnitIndex: number, templateIndex: number, destinationUnitIndex: number) {
+    cy.get(createTemplatePageSelectors.sourceUnitDropdown).click()
     cy.wait(2000)
-    cy.get(createTemplatePageSelectors.unitAndTemplateList).eq(unitIndex).click()
-    cy.get(createTemplatePageSelectors.selectTemplateDropdown).click()
+    cy.get(createTemplatePageSelectors.dropdownValuesList).eq(sourceUnitIndex).click()
+    cy.get(createTemplatePageSelectors.templateDropdown).click()
     cy.wait(2000)
-    cy.get(createTemplatePageSelectors.unitAndTemplateList).eq(templateIndex).click()
+    cy.get(createTemplatePageSelectors.dropdownValuesList).eq(templateIndex).click()
+    cy.get(createTemplatePageSelectors.destinationUnit).click()
+    cy.wait(2000)
+    cy.get(createTemplatePageSelectors.dropdownValuesList).eq(destinationUnitIndex).click()
 }
 
 export function verifyFieldsAreRequiredAndErrorMessage() {
@@ -34,9 +36,9 @@ export function verifyFieldsAreRequiredAndErrorMessage() {
     cy.get(createTemplatePageSelectors.messageAlert).should('exist')
 }
 
-export function createATemplate(unitIndexFromDropdown: number = 0, templateIndexFromDropdown: number = 0) {
+export function createATemplate(sourceUnitIndex: number = 0, templateIndex: number = 0, destinationUnitIndex: number = 0) {
     cy.get(templatesTableSelectors.addTemplateButton).click()
-    selectUnitAndTemplate(unitIndexFromDropdown, templateIndexFromDropdown)
+    selectUnitAndTemplate(sourceUnitIndex, templateIndex, destinationUnitIndex)
     cy.get(createTemplatePageSelectors.nextStepOrCreateTemplateButton).click()
     const UUID = createUUID()
     cy.get(createTemplatePageSelectors.vitaNameField).type('automated-' + UUID)

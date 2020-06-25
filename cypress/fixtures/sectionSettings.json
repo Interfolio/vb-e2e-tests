@@ -10,9 +10,7 @@
         "Descending": "Descending"
     },
     "basedOn": {
-        "Field1": "Field1",
-        "StartSemester": "Start Semester",
-        "EndSemester": "End Semester"
+        "Field1": "Field 1"
     },
     "numbering": {
         "RestartNumbering": "Restart numbering",

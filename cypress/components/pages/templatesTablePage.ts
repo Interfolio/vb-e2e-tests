@@ -16,17 +16,33 @@ export const templatesTableSelectors = {
     unitDropdown: 'div#fis-body-content span > nz-select > div > div',
     unitDropdownValues: '.ant-select-dropdown-menu-item.ng-star-inserted',
     excludeSubunitsCheckbox: '.m-l-large',
+    showVisibleSectionsButton: '.ant-table-tbody > :nth-child(n) > :nth-child(4) > span > button',
+    listOfSectionsShownFromPopup: '.ant-modal-body .ng-star-inserted',
 }
 
-export function verifyEntryInTheTemplateTable(index: number, expectedEntry: Array<number>) {
-    cy.get(templatesTableSelectors.templateNamelist).eq(index).as('templateNamelist')
-    cy.get(templatesTableSelectors.sourceTemplateList).eq(index).as('sourceTemplateList')
-    cy.get(templatesTableSelectors.unitList).eq(index).as('unitList')
-    cy.get(templatesTableSelectors.sectionsShownList).eq(index).as('sectionsShownList')
-    cy.get('@templateNamelist').should('contain.text', expectedEntry[0])
-    cy.get('@sourceTemplateList').should('contain.text', expectedEntry[1])
-    cy.get('@unitList').should('contain.text', expectedEntry[2])
-    cy.get('@sectionsShownList').should('contain.text', expectedEntry[3])
+export function sortTableBy(column: string) {
+    switch (column) {
+        case 'Template Name':
+            return cy.get(templatesTableSelectors.sortingButtonsList).eq(0).click();
+        case 'Source Template':
+            return cy.get(templatesTableSelectors.sortingButtonsList).eq(1).click();
+        case 'Unit':
+            return cy.get(templatesTableSelectors.sortingButtonsList).eq(2).click();
+        default:
+            return "Column not found"
+    }
+}
+
+export function verifySort(sortTableTerm: string, expectedEntriesAfterSort: Array<number>) {
+    sortTableBy(sortTableTerm)
+    cy.wait(1000)
+    verifyEntryInTheTemplateTable(0, expectedEntriesAfterSort)
+}
+
+export function verifyPagination(pageToSelect: string, expectedEntriesAfterPageSwitch: Array<number>) {
+    clickOnPage(pageToSelect)
+    cy.wait(1000)
+    verifyEntryInTheTemplateTable(0, expectedEntriesAfterPageSwitch)
 }
 
 export function clickOnPage(page: string) {
@@ -48,31 +64,19 @@ function selectPage(index: number) {
     }
 }
 
-export function sortTableBy(column: string) {
-    switch (column) {
-        case 'Template Name':
-            return cy.get(templatesTableSelectors.sortingButtonsList).eq(0).click();
-        case 'Source Template':
-            return cy.get(templatesTableSelectors.sortingButtonsList).eq(1).click();
-        case 'Unit':
-            return cy.get(templatesTableSelectors.sortingButtonsList).eq(2).click();
-        default:
-            return "Column not found"
-    }
-}
-
-export function verifySort(sortTableTerm: string, expectedEntriesAfterSort: Array<number>) {
-    sortTableBy(sortTableTerm)
-    verifyEntryInTheTemplateTable(0, expectedEntriesAfterSort)
-}
-
-export function verifyPagination(pageToSelect: string, expectedEntriesAfterPageSwitch: Array<number>) {
-    clickOnPage(pageToSelect)
-    verifyEntryInTheTemplateTable(0, expectedEntriesAfterPageSwitch)
-}
-
 export function switchPaginationAndCheckDisplayedEntries(shownPerPage: number, numberOfPagesAvailable: number, numberOfDisplayedTemplates: number) {
     cy.get(templatesTableSelectors.paginationDropdown).click().get(templatesTableSelectors.paginationDropdownValues).eq(shownPerPage).click()
     cy.get(templatesTableSelectors.paginationButtonsList).should('have.length', numberOfPagesAvailable)
     cy.get(templatesTableSelectors.templateNamelist).should('have.length', numberOfDisplayedTemplates)
+}
+
+export function verifyEntryInTheTemplateTable(index: number, expectedEntry: Array<number>) {
+    cy.get(templatesTableSelectors.templateNamelist).eq(index).as('templateNamelist')
+    cy.get(templatesTableSelectors.sourceTemplateList).eq(index).as('sourceTemplateList')
+    cy.get(templatesTableSelectors.unitList).eq(index).as('unitList')
+    cy.get(templatesTableSelectors.sectionsShownList).eq(index).as('sectionsShownList')
+    cy.get('@templateNamelist').should('contain.text', expectedEntry[0])
+    cy.get('@sourceTemplateList').should('contain.text', expectedEntry[1])
+    cy.get('@unitList').should('contain.text', expectedEntry[2])
+    cy.get('@sectionsShownList').should('contain.text', expectedEntry[3])
 }

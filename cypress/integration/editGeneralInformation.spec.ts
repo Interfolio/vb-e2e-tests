@@ -6,7 +6,7 @@ import { sectionsPageSelectors } from "../components/pages/sectionsPage"
 import * as radioButton from "../components/buttons/radioButton"
 import * as sidebarButtons from "../components/buttons/sidebarButtons"
 
-describe('Edit general information tests', () => {
+describe('General information tests', () => {
     
     before(() => {
         cy.LogInUsingAPI()
@@ -14,8 +14,8 @@ describe('Edit general information tests', () => {
 
     var templateIndex = -1
     beforeEach(() => {
-        cy.visit('templates')
-        checkURLcontains('/templates', 30000)
+        cy.visit('templates/institutional')
+        checkURLcontains('templates/institutional', 30000)
         Cypress.Cookies.preserveOnce(...appCookies);
 
         templateIndex++
@@ -42,7 +42,7 @@ describe('Edit general information tests', () => {
             cy.get(generalInformationSidebarSelectors.vitaTemplateNameField).clear().type(expectedValues.activeTableEntries[1][0])
         });
         sidebarButtons.clickOn('Apply Changes')
-        cy.get(generalInformationSidebarSelectors.nameNotUniqueError).should('contain', 'Vita name must be unique.')
+        cy.get(generalInformationSidebarSelectors.nameNotUniqueError).should('contain', 'Validation failed: Name should be unique.')
         generalInformationSidebar.checkValidationWorks(generalInformationSidebarSelectors.vitaTemplateNameField)
         generalInformationSidebar.checkValidationWorks(generalInformationSidebarSelectors.vitaTemplateDescriptionField)
     });

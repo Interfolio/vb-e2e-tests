@@ -10,7 +10,7 @@ export const templateStylingSidebarSelectors = {
     borderPlacementDropdown: 'nz-select[formcontrolname="borderPlacement"]',
     borderWidthDropdown: 'nz-select[formcontrolname="borderWidth"]',
     dropdownOptions: '.ant-select-dropdown-menu-item',
-    stylingOptionList: '.anticon.m-r-small:visible',
+    stylingOptionList: '.anticon.m-r-small',//:visible
     selectedStylingOption: 'ng-star-inserted active',
     tabsList: '.ant-tabs-tab.ng-star-inserted',
     headingsList: '.ant-collapse-header',

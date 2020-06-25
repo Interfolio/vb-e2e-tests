@@ -1,7 +1,11 @@
 /// <reference types="Cypress" />
 import * as templatesTable from "../components/pages/templatesTablePage"
-import { checkURLcontains, appCookies } from '../components/helper';
+import { checkURLcontains, appCookies, clickOnEditButtonForASpecificTemplate } from '../components/helper';
 import { templatesTableSelectors } from "../components/pages/templatesTablePage"
+import * as sectionsPage from "../components/pages/sectionsPage"
+import { sectionsPageSelectors } from "../components/pages/sectionsPage"
+import { popupButtonsSelectors } from '../components/buttons/popupButtons';
+
 
 describe('Templates table tests', function () {
 
@@ -12,10 +16,16 @@ describe('Templates table tests', function () {
 
     beforeEach(() => {
         Cypress.Cookies.preserveOnce(...appCookies);
-        cy.visit('templates').get(templatesTableSelectors.templateTablePageTitle, { timeout: 20000 }).should('be.visible')
+        cy.visit('/templates/institutional').get(templatesTableSelectors.templateTablePageTitle, { timeout: 20000 }).should('be.visible')
         checkURLcontains('/templates', 30000)
         cy.fixture('templatesTable.json').as('expectedValues');
     });
+
+    function extraSort(sortTerm: string) {
+        // This function needs to be removed once the 3rd sort option is removed, currently we have it and it makes no sense
+        templatesTable.sortTableBy(sortTerm)
+        cy.wait(1000)
+    }
 
     it('Verify table headers and some entries', function () {
         cy.get(templatesTableSelectors.headersList).each(($el, index) => expect($el.get(0).innerText).to.contain(this.expectedValues.tableHeaders[index]))
@@ -27,22 +37,23 @@ describe('Templates table tests', function () {
     it('Verify pagination and sort by Template Name on Active Templates Tab', function () {
         templatesTable.verifySort('Template Name', this.expectedValues.activeTableEntries[33])
         templatesTable.verifyPagination('2', this.expectedValues.activeTableEntries[13])
+        extraSort('Template Name')
         templatesTable.verifySort('Template Name', this.expectedValues.activeTableEntries[20])
         templatesTable.verifyPagination('Previous Page', this.expectedValues.activeTableEntries[0])
     })
 
     it('Verify pagination and sort by Source Template on Active Templates Tab', function () {
-        templatesTable.verifySort('Source Template', this.expectedValues.activeTableEntries[33])
-        templatesTable.verifyPagination('2', this.expectedValues.activeTableEntries[20])
-        templatesTable.verifySort('Source Template', this.expectedValues.activeTableEntries[20])
+        templatesTable.verifySort('Source Template', this.expectedValues.activeTableEntries[7])
+        templatesTable.verifyPagination('2', this.expectedValues.activeTableEntries[29])
+        templatesTable.verifySort('Source Template', this.expectedValues.activeTableEntries[29])
         templatesTable.verifyPagination('1', this.expectedValues.activeTableEntries[0])
     })
 
     it('Verify pagination and sort by Unit on Active Templates Tab', function () {
         templatesTable.verifySort('Unit', this.expectedValues.activeTableEntries[19])
-        templatesTable.verifyPagination('Next Page', this.expectedValues.activeTableEntries[33])
-        templatesTable.verifySort('Unit', this.expectedValues.activeTableEntries[20])
-        templatesTable.verifyPagination('Previous Page', this.expectedValues.activeTableEntries[0])
+        templatesTable.verifyPagination('Next Page', this.expectedValues.activeTableEntries[32])
+        templatesTable.verifySort('Unit', this.expectedValues.activeTableEntries[29])
+        templatesTable.verifyPagination('Previous Page', this.expectedValues.activeTableEntries[8])
     })
 
     it('Verify sort and pagination on Archived Templates Tab', function () {
@@ -109,5 +120,29 @@ describe('Templates table tests', function () {
         cy.get(templatesTableSelectors.excludeSubunitsCheckbox).click()
         cy.get(templatesTableSelectors.templateNamelist).should('have.length', 11)
         cy.get(templatesTableSelectors.unitList).should('contain', 'Marketing')
+    })
+
+    it('Verify sections column shows correct number and popup is displayed', function () {
+        clickOnEditButtonForASpecificTemplate(0)
+        sectionsPage.getHiddenSectionList().eq(0).find(sectionsPageSelectors.moveSectionUpButton).click()
+        sectionsPage.getHiddenSectionList().eq(0).find(sectionsPageSelectors.moveSectionUpButton).click()
+        sectionsPage.getHiddenSectionList().eq(0).find(sectionsPageSelectors.moveSectionUpButton).click()
+        var sectionNames: Array<string> = []
+        cy.get(sectionsPageSelectors.shownOrHiddenSectionsCount).contains('Shown').then((numberOfShownSections) => {
+            for (let i = 0; i < sectionsPage.getNumberOfSections(numberOfShownSections.text()); i++) {
+                sectionsPage.getShownSectionList().eq(i).then((element) => {
+                    let indexOfEdit = element.text().indexOf('Edit')
+                    sectionNames.push(element.text().substring(0, indexOfEdit).trim())
+                })
+            }
+        })
+        cy.get(sectionsPageSelectors.shownOrHiddenSectionsCount).contains('Shown').then((numberOfShownSections) => {
+            sectionsPage.clickOn('Save')
+            cy.get(popupButtonsSelectors.toastMessage).should('be.visible')
+            sectionsPage.clickOn('Back')
+            cy.get(templatesTableSelectors.sectionsShownList).eq(0).should('contain.text', sectionsPage.getNumberOfSections(numberOfShownSections.text()))
+            cy.get(templatesTableSelectors.showVisibleSectionsButton).eq(0).click()
+            sectionNames.forEach((name) => cy.get(templatesTableSelectors.listOfSectionsShownFromPopup).should('contain.text', name))
+        })
     })
 })

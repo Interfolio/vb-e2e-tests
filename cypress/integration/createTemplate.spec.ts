@@ -5,6 +5,7 @@ import { templatesTableSelectors } from "../components/pages/templatesTablePage"
 import * as radioButton from "../components/buttons/radioButton"
 import { sectionsPageSelectors } from "../components/pages/sectionsPage"
 import { createTemplatePageSelectors } from "../components/pages/createTemplatePage"
+import { popupButtonsSelectors } from '../components/buttons/popupButtons'
 
 describe('Create template tests', () => {
 
@@ -13,8 +14,8 @@ describe('Create template tests', () => {
     });
 
     beforeEach(() => {
-        cy.visit('templates')
-        checkURLcontains('/templates', 30000)
+        cy.visit('templates/institutional')
+        checkURLcontains('templates/institutional', 30000)
         Cypress.Cookies.preserveOnce(...appCookies);
         cy.fixture('templatesTable.json').then((expectedValues) => {
             cy.get(templatesTableSelectors.headersList, { timeout: 10000 }).each(($el, index) => expect($el.get(0).innerText).to.contain(expectedValues.tableHeaders[index]))
@@ -28,7 +29,7 @@ describe('Create template tests', () => {
         cy.get(createTemplatePageSelectors.nextStepOrCreateTemplateButton).as('nextStepOrCreateTemplateButton')
         cy.get('@nextStepOrCreateTemplateButton').click()
         createTemplate.verifyFieldsAreRequiredAndErrorMessage()
-        createTemplate.selectUnitAndTemplate(0, 0)
+        createTemplate.selectUnitAndTemplate(1, 1, 1)
         cy.get('@nextStepOrCreateTemplateButton').click()
         //create template page 2
         cy.get(createTemplatePageSelectors.activeStep).should('have.text', ' 2 ')
@@ -41,12 +42,13 @@ describe('Create template tests', () => {
             cy.get(createTemplatePageSelectors.vitaNameField).type(expectedValues.activeTableEntries[1][0])
         });
         cy.get('@nextStepOrCreateTemplateButton').click()
-        cy.get(createTemplatePageSelectors.uniqueNameError).should('contain', 'Vita name must be unique')
+        cy.get(createTemplatePageSelectors.uniqueNameError).should('contain', 'Validation failed: Name should be unique.')
         cy.get(createTemplatePageSelectors.vitaNameField).clear().type('automated-' + UUID)
         radioButton.clickEachRadioButton()
         cy.get(createTemplatePageSelectors.previousStepButton).click()
-        cy.get(createTemplatePageSelectors.selectUnitDropdown).should('not.be.empty')
-        cy.get(createTemplatePageSelectors.selectTemplateDropdown).should('not.be.empty')
+        cy.get(createTemplatePageSelectors.sourceUnitDropdown).should('not.be.empty')
+        cy.get(createTemplatePageSelectors.templateDropdown).should('not.be.empty')
+        cy.get(createTemplatePageSelectors.destinationUnit).should('not.be.empty')
         cy.get('@nextStepOrCreateTemplateButton').click()
         radioButton.verifyStates(true, false, true, false, false)
         cy.get('@nextStepOrCreateTemplateButton').click()
@@ -58,32 +60,33 @@ describe('Create template tests', () => {
 
     it('Verify cancel template creation works and popup is displayed', () => {
         cy.get(templatesTableSelectors.addTemplateButton).click()
-        checkURLcontains('1/templates/new')
-        createTemplate.selectUnitAndTemplate(0, 0)
+        checkURLcontains('/templates/new', 1000)
+        createTemplate.selectUnitAndTemplate(0, 0, 0)
         cy.get(createTemplatePageSelectors.cancelTemplateCreationButton).click()
-        cy.get(createTemplatePageSelectors.cancelPopupBackButton).click()
-        cy.get(createTemplatePageSelectors.selectUnitDropdown).should('not.be.empty')
-        cy.get(createTemplatePageSelectors.selectTemplateDropdown).should('not.be.empty')
-        cy.get(createTemplatePageSelectors.cancelPopupBackButton).should('not.be.visible')
+        cy.get(popupButtonsSelectors.cancelButton).click()
+        cy.get(createTemplatePageSelectors.sourceUnitDropdown).should('not.be.empty')
+        cy.get(createTemplatePageSelectors.templateDropdown).should('not.be.empty')
+        cy.get(createTemplatePageSelectors.destinationUnit).should('not.be.empty')
+        cy.get(popupButtonsSelectors.cancelButton).should('not.be.visible')
         cy.get(createTemplatePageSelectors.cancelTemplateCreationButton).click()
-        cy.get(createTemplatePageSelectors.cancelPopupYesButton).click()
+        cy.get(popupButtonsSelectors.yesButton).click()
         checkURLcontains('/templates')
         cy.get(templatesTableSelectors.addTemplateButton).click()
         cy.get(createTemplatePageSelectors.didYouMeanToCloneMessage).should('contain.text', 'Did you mean to clone a template?')
-        cy.get(createTemplatePageSelectors.backToTemplatesButton).click()
+        cy.get(createTemplatePageSelectors.didYouMeanToCloneMessage).click()
         checkURLcontains('/templates')
         cy.get(templatesTableSelectors.addTemplateButton).click()
-        createTemplate.selectUnitAndTemplate(0, 0)
+        createTemplate.selectUnitAndTemplate(0, 0, 0)
         cy.get(createTemplatePageSelectors.nextStepOrCreateTemplateButton).click()
-        checkURLcontains('1/templates/new')
+        checkURLcontains('/templates/new')
         cy.get(createTemplatePageSelectors.cancelTemplateCreationButton).click()
-        cy.get(createTemplatePageSelectors.cancelPopupBackButton).click()
-        cy.get(createTemplatePageSelectors.cancelPopupBackButton).should('not.be.visible')
+        cy.get(popupButtonsSelectors.cancelButton).click()
+        cy.get(popupButtonsSelectors.cancelButton).should('not.be.visible')
         cy.get(createTemplatePageSelectors.cancelTemplateCreationButton).click()
-        cy.get(createTemplatePageSelectors.cancelPopupYesButton).click()
+        cy.get(popupButtonsSelectors.yesButton).click()
         checkURLcontains('/templates')
         cy.get(templatesTableSelectors.addTemplateButton).click()
-        createTemplate.selectUnitAndTemplate(0, 0)
+        createTemplate.selectUnitAndTemplate(0, 0, 0)
         cy.get(createTemplatePageSelectors.nextStepOrCreateTemplateButton).click()
         cy.get(createTemplatePageSelectors.didYouMeanToCloneMessage).should('contain.text', 'Did you mean to clone a template?')
         cy.get(createTemplatePageSelectors.backToTemplatesButton).click()
